@@ -8,13 +8,12 @@ import { useEffect, useRef, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-	mapboxgl.accessToken =
-		"pk.eyJ1IjoidGRlY2thcmQyMDAwIiwiYSI6ImNsZjFldjhsNzA3bXozem14NDV6Nng4amYifQ.PvmNM-RCjjUyWuNZPLHjOg";
+	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 	const mapContainer = useRef(null);
 	const map = useRef(null);
-	const [lng, setLng] = useState(-82.15);
-	const [lat, setLat] = useState(43.5);
-	const [zoom, setZoom] = useState(6);
+	const [lng, setLng] = useState(-85.15);
+	const [lat, setLat] = useState(44.5);
+	const [zoom, setZoom] = useState(5.5);
 
 	useEffect(() => {
 		if (map.current) return;
@@ -29,8 +28,8 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Lake Ship Wrecks</title>
-				<meta name="description" content="Interactive Ship Wreck Map" />
+				<title>Lake Shipwrecks</title>
+				<meta name="description" content="Interactive Shipwreck Map" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 				<link
@@ -40,8 +39,8 @@ export default function Home() {
 			</Head>
 			<main>
 				<div className={styles.navigationPanel}>
-          <div> Example Header</div>
-          <div>
+          <div className={styles.titleHeader}>Lake Shipwrecks</div>
+          <div className={styles.navigationBody}>
             <div>Example Tool</div>
             <div>Example List</div>
           </div>

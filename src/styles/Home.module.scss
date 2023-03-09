@@ -21,6 +21,16 @@
 	position: absolute;
 	width: 20vw;
 	z-index: 1000;
+
+	.titleHeader {
+		text-align: center;
+		font-size: 25px;
+		padding: 20px 0;
+	}
+
+	.navigationBody {
+		padding: 20px 0;
+	}
 }
 
 // .sidebar {
