@@ -1,0 +1,37 @@
+.mapContainer {
+	border-radius: 20px;
+	height: 100vh;
+	left: 0px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 100vw;
+}
+
+.navigationPanel {
+	background-color: rgb(255, 255, 255);
+	border-radius: 20px;
+	box-shadow: 0px 0px 10px #adadad;
+	height: 75vh;
+	left: 20px;
+	opacity: .95;
+	padding: 30px;
+	top: 20px;
+	position: absolute;
+	width: 20vw;
+	z-index: 1000;
+}
+
+// .sidebar {
+//   background-color: rgba(35, 55, 75, 0.9);
+//   color: #fff;
+//   padding: 6px 12px;
+//   font-family: monospace;
+//   z-index: 1;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   margin: 12px;
+//   border-radius: 4px;
+// }
