@@ -71,12 +71,35 @@ export default function Home() {
 				<div className={styles.navigationPanel}>
           <div className={styles.titleHeader}>Lake Shipwrecks</div>
           <div className={styles.navigationBody}>
-            <div>Example Tool</div>
-            <div>Example List</div>
+            <div className={styles.toolsContainer}>
+				<div className={styles.button}>
+					<img src="search-icon.svg" alt="" />
+					<div>Search</div>
+				</div>
+				<div className={styles.button}>
+					<img src="filter-icon.svg" alt="" />
+					<div>Filter</div>
+				</div>
+				<div className={styles.button}>
+					<img src="reset-icon.svg" alt="" />
+					<div>Reset</div>
+				</div>
+			</div>
+            <div className={styles.listContainer}>
+				<div className={styles.listItem}>Ship One</div>
+				<div className={styles.listItem}>Ship Two</div>
+				<div className={styles.listItem}>Ship Three</div>
+				<div className={styles.listItem}>Ship Four</div>
+				<div className={styles.listItem}>Ship Five</div>
+			</div>
+
+			<div style={{paddingTop: '100px', textAlign: 'center'}}>
+				<div>Dev Tools</div>
+				<button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
+				<button onClick={getShipwrecksByLocation}>Get Shipwrecks By Location</button>
+				<button onClick={() => getShipwrecksBySinkYearRange(1990, 2015)}>Get Shipwrecks By Sink Date</button>
+			</div>
           </div>
-		  <button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
-		  <button onClick={getShipwrecksByLocation}>Get Shipwrecks By Location</button>
-		  <button onClick={() => getShipwrecksBySinkYearRange(1990, 2015)}>Get Shipwrecks By Sink Date</button>
         </div>
 				<div>
 					<div ref={mapContainer} className={styles.mapContainer}></div>
