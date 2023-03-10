@@ -25,53 +25,75 @@ type shipwreck = {
 }
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse) {
-
-    try {
-        const client = await clientPromise;
-        const db = client.db("posts");
-        console.log("client.db: ", client.db)
-        const { title, content } = req.body;
-    
-        const post = await db.collection("posts").insertOne({
-          name: 'test',
-          location: 'test'
-        });
-    
-        res.json(post);
-      } catch (e) {
-        console.error(e);
-        throw new Error(e as string).message;
-      }
-
-    let response: shipwreck[];
+    let response: shipwreck[] = [];
     if (req.method === "GET") {
-        console.log(req.query)
         switch(Object.keys(req.query)[0]) {
             case undefined:
-                console.log("return all");
+                response = await getAllShips();
                 break;
-            case "getBySinkDate":
-                console.log("return by date");
+            case "getBySinkYear":
+                if(typeof req.query.getBySinkYear === "string") {
+                    const yearRange = req.query.getBySinkYear.split(",");
+                    const fromYear = yearRange[0];
+                    const toYear = yearRange[1];
+                    response = await getShipsBySinkYear(fromYear, toYear);
+                }
                 break;
             case "getByLocation":
-                console.log("return by location");
+                const location = req.query.getByLocation;
+                if(typeof(location) === "string") {
+                    response = await getShipsByLocation(location);
+                }
                 break;
             default:
                 console.log("default switch catch")
                 break;
         }
     } else if(req.method === "POST") {
-        console.log("post request")
+        console.log("POST Request")
     }
-    res.status(200).send([])
+    res.status(200).send(response)
 }
 
 const getAllShips = async function() {
-    return []
+    try {
+        const client = await clientPromise;
+        const db = client.db("main");
+        const res = await db.collection("shipwrecks").find().toArray();
+        return res as shipwreck[];
+     } catch (e) {
+        console.warn("error: ", e)
+        throw new Error(e as string).message;
+    }
 }
 
-const getShipsByLocation = function(location: string) {
-    return {
-        filtered: "ships"
+const getShipsByLocation = async function(location: string) {
+    try {
+        const client = await clientPromise;
+        const db = client.db("main");
+        const res = await db.collection("shipwrecks").find({location: location}).toArray();
+        console.log("res -- ", res)
+        return res as shipwreck[];
+     } catch (e) {
+        console.warn("error: ", e)
+        throw new Error(e as string).message;
+    }
+}
+
+const getShipsBySinkYear = async function(fromYear: string, toYear: string) {
+    //Dates are stored as year/month/day ex.20230310
+    //Years must be converted to this format to query database
+    const fromDate = Number(fromYear + "0101"); //start of year
+    const toDate = Number(toYear + "1231"); //end of year
+    try {
+        const client = await clientPromise;
+        const db = client.db("main");
+        console.log(fromDate, " - ", toDate)
+        const res = await db.collection("shipwrecks").find({dateSunk: {$gte: fromDate, $lte: toDate}}).toArray();
+        console.log("res -- ", res)
+        return res as shipwreck[];
+     } catch (e) {
+        console.warn("error: ", e)
+        throw new Error(e as string).message;
     }
 }

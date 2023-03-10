@@ -29,7 +29,7 @@ export default function Home() {
 		try {
 			const res = await fetch('/api/shipwrecks', {method: "GET"});
 			const data = await res.json();
-			console.log("response: ", data);
+			console.log("returnedData: ", data);
 		} catch (err) {
 			console.warn(err)
 		}
@@ -37,9 +37,9 @@ export default function Home() {
 
 	const getShipwrecksBySinkYearRange = async (fromYear: number, toYear: number) => {
 		try {
-			const res = await fetch(`/api/shipwrecks?getBySinkDate=${fromYear},${toYear}`, {method: "GET"});
+			const res = await fetch(`/api/shipwrecks?getBySinkYear=${fromYear},${toYear}`, {method: "GET"});
 			const data = await res.json();
-			console.log("response: ", data);
+			console.log(data);
 		} catch (err) {
 			console.warn(err)
 		}
@@ -47,9 +47,9 @@ export default function Home() {
 
 	const getShipwrecksByLocation = async () => {
 		try {
-			const res = await fetch('/api/shipwrecks?getByLocation=Lake Erie', {method: "GET"});
+			const res = await fetch('/api/shipwrecks?getByLocation=Lake Superior', {method: "GET"});
 			const data = await res.json();
-			console.log("response: ", data);
+			console.log(data)
 		} catch (err) {
 			console.warn(err)
 		}
@@ -62,10 +62,6 @@ export default function Home() {
 				<meta name="description" content="Interactive Shipwreck Map" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
-				<link
-					href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css"
-					rel="stylesheet"
-				/>
 			</Head>
 			<main>
 				<div className={styles.navigationPanel}>
@@ -97,7 +93,7 @@ export default function Home() {
 				<div>Dev Tools</div>
 				<button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
 				<button onClick={getShipwrecksByLocation}>Get Shipwrecks By Location</button>
-				<button onClick={() => getShipwrecksBySinkYearRange(1990, 2015)}>Get Shipwrecks By Sink Date</button>
+				<button onClick={() => getShipwrecksBySinkYearRange(1885, 1897)}>Get Shipwrecks By Sink Date</button>
 			</div>
           </div>
         </div>
