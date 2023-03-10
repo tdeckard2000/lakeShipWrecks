@@ -15,6 +15,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 if (process.env.NODE_ENV === "development") {
+	console.warn("MongoDB <-> DEV ENVIRONMENT")
 	let globalWithMongo = global as typeof globalThis & {
 		_mongoClientPromise: Promise<MongoClient>;
 	};
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === "development") {
 	}
 	clientPromise = globalWithMongo._mongoClientPromise;
 } else {
+	console.warn("MongoDB <-> PROD ENVIRONMENT")
 	client = new MongoClient(uri, options);
 	clientPromise = client.connect();
 }
