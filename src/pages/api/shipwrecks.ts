@@ -1,28 +1,7 @@
 import { ObjectId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../../lib/mongodb';
-
-type shipwreck = {
-    _id?: ObjectId,
-    name: string,
-    location: string,
-    boatType?: string,
-    dateSunk?: number,
-    notes?: string,
-    coordinates: [
-        latitude?: number,
-        longitude?: number
-    ],
-    linkWiki?: string,
-    linkImage?: string,
-    stats: {
-        grossTons?: number,
-        length?: number,
-        beam?: number,
-        height?: number,
-        waterDepth?: number,
-    }
-}
+import { shipwreck } from '@/types';
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse) {
     let response: shipwreck[] = [];

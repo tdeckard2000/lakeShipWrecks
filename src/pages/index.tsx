@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
+import { shipwreck } from "@/types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,37 +24,85 @@ export default function Home() {
 			center: [lng, lat],
 			zoom: zoom,
 		});
+		// @ts-ignore
+		map.current.on('load', () => {
+			// @ts-ignore
+			map.current.addSource('places', {
+				type: 'geojson',
+				data: {
+					type: 'FeatureCollection',
+					features: [
+						{
+							type: 'Feature',
+							properties: {
+								description: `<strong>Example Description</strong><p>Text goes here.<p>`,
+								icon: 'theatre'
+							},
+							geometry: {
+								type: 'Point',
+								coordinates: [-86.6545, 48.6981]
+							}
+						}
+					]
+				}
+			});
+			// @ts-ignore
+			map.current.addLayer({
+				id: 'places',
+				type: 'symbol',
+				source: 'places',
+				layout: {
+					'icon-image': ['get', 'icon'],
+					'icon-allow-overlap': true
+				}
+			})
+		})
+		populateMapMarkers();
 	});
+
+	const populateMapMarkers = async (shipwrecks?: shipwreck[]) => {
+		if(!map.current) return
+		const shipwrecksArray = shipwrecks || (await getAllShipwrecks());
+		// map.current.a
+	};
 
 	const getAllShipwrecks = async () => {
 		try {
-			const res = await fetch('/api/shipwrecks', {method: "GET"});
+			const res = await fetch("/api/shipwrecks", { method: "GET" });
 			const data = await res.json();
 			console.log("returnedData: ", data);
 		} catch (err) {
-			console.warn(err)
+			console.warn(err);
 		}
-	}
+	};
 
-	const getShipwrecksBySinkYearRange = async (fromYear: number, toYear: number) => {
+	const getShipwrecksBySinkYearRange = async (
+		fromYear: number,
+		toYear: number
+	) => {
 		try {
-			const res = await fetch(`/api/shipwrecks?getBySinkYear=${fromYear},${toYear}`, {method: "GET"});
+			const res = await fetch(
+				`/api/shipwrecks?getBySinkYear=${fromYear},${toYear}`,
+				{ method: "GET" }
+			);
 			const data = await res.json();
 			console.log(data);
 		} catch (err) {
-			console.warn(err)
+			console.warn(err);
 		}
-	}
+	};
 
 	const getShipwrecksByLocation = async () => {
 		try {
-			const res = await fetch('/api/shipwrecks?getByLocation=Lake Superior', {method: "GET"});
+			const res = await fetch("/api/shipwrecks?getByLocation=Lake Superior", {
+				method: "GET",
+			});
 			const data = await res.json();
-			console.log(data)
+			console.log(data);
 		} catch (err) {
-			console.warn(err)
+			console.warn(err);
 		}
-	}
+	};
 
 	return (
 		<>
@@ -65,38 +114,42 @@ export default function Home() {
 			</Head>
 			<main>
 				<div className={styles.navigationPanel}>
-          <div className={styles.titleHeader}>Lake Shipwrecks</div>
-          <div className={styles.navigationBody}>
-            <div className={styles.toolsContainer}>
-				<div className={styles.button}>
-					<img src="search-icon.svg" alt="" />
-					<div>Search</div>
-				</div>
-				<div className={styles.button}>
-					<img src="filter-icon.svg" alt="" />
-					<div>Filter</div>
-				</div>
-				<div className={styles.button}>
-					<img src="reset-icon.svg" alt="" />
-					<div>Reset</div>
-				</div>
-			</div>
-            <div className={styles.listContainer}>
-				<div className={styles.listItem}>Ship One</div>
-				<div className={styles.listItem}>Ship Two</div>
-				<div className={styles.listItem}>Ship Three</div>
-				<div className={styles.listItem}>Ship Four</div>
-				<div className={styles.listItem}>Ship Five</div>
-			</div>
+					<div className={styles.titleHeader}>Lake Shipwrecks</div>
+					<div className={styles.navigationBody}>
+						<div className={styles.toolsContainer}>
+							<div className={styles.button}>
+								<img src="search-icon.svg" alt="" />
+								<div>Search</div>
+							</div>
+							<div className={styles.button}>
+								<img src="filter-icon.svg" alt="" />
+								<div>Filter</div>
+							</div>
+							<div className={styles.button}>
+								<img src="reset-icon.svg" alt="" />
+								<div>Reset</div>
+							</div>
+						</div>
+						<div className={styles.listContainer}>
+							<div className={styles.listItem}>Ship One</div>
+							<div className={styles.listItem}>Ship Two</div>
+							<div className={styles.listItem}>Ship Three</div>
+							<div className={styles.listItem}>Ship Four</div>
+							<div className={styles.listItem}>Ship Five</div>
+						</div>
 
-			<div style={{paddingTop: '100px', textAlign: 'center'}}>
-				<div>Dev Tools</div>
-				<button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
-				<button onClick={getShipwrecksByLocation}>Get Shipwrecks By Location</button>
-				<button onClick={() => getShipwrecksBySinkYearRange(1885, 1897)}>Get Shipwrecks By Sink Date</button>
-			</div>
-          </div>
-        </div>
+						<div style={{ paddingTop: "100px", textAlign: "center" }}>
+							<div>Dev Tools</div>
+							<button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
+							<button onClick={getShipwrecksByLocation}>
+								Get Shipwrecks By Location
+							</button>
+							<button onClick={() => getShipwrecksBySinkYearRange(1885, 1897)}>
+								Get Shipwrecks By Sink Date
+							</button>
+						</div>
+					</div>
+				</div>
 				<div>
 					<div ref={mapContainer} className={styles.mapContainer}></div>
 				</div>
