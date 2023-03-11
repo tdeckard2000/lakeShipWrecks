@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { shipwreck } from "@/types";
+import * as clientAPI from "@/clientAPI";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +14,8 @@ export default function Home() {
 	let shipList: shipwreck[] = [];
 	const mapContainer = useRef(null);
 	const map = useRef(null);
+	const [filtersActive, setFiltersActive] = useState<boolean>(false);
+	const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 	const [lng, setLng] = useState(-85.15);
 	const [lat, setLat] = useState(44.5);
 	const [zoom, setZoom] = useState(5.5);
@@ -32,7 +35,20 @@ export default function Home() {
 		if(!map.current || map.current === null) return;
 		//@ts-ignore
 		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
-		shipList = await getAllShipwrecks();
+		shipList = await clientAPI.getAllShipwrecks();
+		updateMapMarkers();
+	}
+
+	const filterBySinkYearRange = async (fromYear: number, toYear: number) => {
+		setFiltersActive(true);
+		const response = await clientAPI.getShipwrecksBySinkYearRange(fromYear, toYear);
+		shipList = response;
+		updateMapMarkers();
+	}
+
+	const resetFilters = async () => {
+		setFiltersActive(false);
+		shipList = await clientAPI.getAllShipwrecks();
 		updateMapMarkers();
 	}
 
@@ -51,6 +67,16 @@ export default function Home() {
 					coordinates: [shipwreck.coordinates.longitude || 0, shipwreck.coordinates.latitude || 0]
 				}
 			})
+		}
+		//@ts-ignore
+		if(map.current.getLayer('places')) {
+			//@ts-ignore
+			map.current.removeLayer('places');
+		}
+		//@ts-ignore
+		if(map.current.getSource('places')) {
+			//@ts-ignore
+			map.current.removeSource('places')
 		}
 		//@ts-ignore
 		map.current.addSource('places', {
@@ -73,46 +99,6 @@ export default function Home() {
 		})
 	};
 
-	const getAllShipwrecks = async () => {
-		try {
-			const res = await fetch("/api/shipwrecks", { method: "GET" });
-			const data = await res.json();
-			return data;
-		} catch (err) {
-			console.warn(err);
-		}
-	};
-
-	const getShipwrecksBySinkYearRange = async (
-		fromYear: number,
-		toYear: number
-	) => {
-		//@ts-ignore
-		map.current.removeSource('places');
-		try {
-			const res = await fetch(
-				`/api/shipwrecks?getBySinkYear=${fromYear},${toYear}`,
-				{ method: "GET" }
-			);
-			const data = await res.json();
-			console.log(data);
-		} catch (err) {
-			console.warn(err);
-		}
-	};
-
-	const getShipwrecksByLocation = async () => {
-		try {
-			const res = await fetch("/api/shipwrecks?getByLocation=Lake Superior", {
-				method: "GET",
-			});
-			const data = await res.json();
-			console.log(data);
-		} catch (err) {
-			console.warn(err);
-		}
-	};
-
 	return (
 		<>
 			<Head>
@@ -125,20 +111,21 @@ export default function Home() {
 				<div className={styles.navigationPanel}>
 					<div className={styles.titleHeader}>Lake Shipwrecks</div>
 					<div className={styles.navigationBody}>
-						<div className={styles.toolsContainer}>
+						<div className={[styles.toolsContainer, filtersOpen ? styles.toolsContainerOpened : ""].join(" ")}>
 							<div className={styles.button}>
 								<img src="search-icon.svg" alt="" />
 								<div>Search</div>
 							</div>
-							<div className={styles.button}>
+							<div className={styles.button} onClick={() => setFiltersOpen(!filtersOpen)}>
 								<img src="filter-icon.svg" alt="" />
 								<div>Filter</div>
 							</div>
-							<div className={styles.button}>
+							<div className={styles.button} style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} onClick={resetFilters}>
 								<img src="reset-icon.svg" alt="" />
 								<div>Reset</div>
 							</div>
 						</div>
+						<div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none',margin: 'auto', width: '30px'}}></div>
 						<div className={styles.listContainer}>
 							<div className={styles.listItem}>Ship One</div>
 							<div className={styles.listItem}>Ship Two</div>
@@ -146,14 +133,12 @@ export default function Home() {
 							<div className={styles.listItem}>Ship Four</div>
 							<div className={styles.listItem}>Ship Five</div>
 						</div>
-
 						<div style={{ paddingTop: "100px", textAlign: "center" }}>
 							<div>Dev Tools</div>
-							<button onClick={getAllShipwrecks}>Get All Shipwrecks</button>
-							<button onClick={getShipwrecksByLocation}>
+							<button onClick={clientAPI.getShipwrecksByLocation}>
 								Get Shipwrecks By Location
 							</button>
-							<button onClick={() => getShipwrecksBySinkYearRange(1885, 1897)}>
+							<button onClick={() => filterBySinkYearRange(1885, 1897)}>
 								Get Shipwrecks By Sink Date
 							</button>
 						</div>

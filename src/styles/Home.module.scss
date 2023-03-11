@@ -16,7 +16,9 @@
 	font-weight: 500;
 	height: 75vh;
 	left: 20px;
+	max-width: 300px;
 	opacity: .95;
+	overflow: hidden;
 	top: 20px;
 	position: absolute;
 	width: 20vw;
@@ -62,7 +64,9 @@
 	.toolsContainer {
 		display: flex;
 		flex-direction: row;
+		height: 60px;
 		justify-content: space-between;
+		transition: height .3s ease-out;
 
 		img {
 			height: 24px;
@@ -87,15 +91,26 @@
 		}
 
 	}
+
+	.toolsContainerOpened {
+		height: 400px;
+		transition: height .3s ease-out;
+	}
 }
 
 @media screen and (max-width: 550px) {
 	.navigationPanel {
 		border-radius: 0 0 20px 20px;
-		height: 25vh;
+		height: 180px;
 		left: 0;
+		max-width: none;
 		top: 0;
 		width: 100vw;
+
+		.titleHeader {
+			font-size: 18px;
+			padding: 35px;
+		}
 	}
 
 	.listContainer {
