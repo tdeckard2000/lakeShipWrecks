@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
+	let shipList: shipwreck[] = [];
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [lng, setLng] = useState(-85.15);
@@ -24,53 +25,59 @@ export default function Home() {
 			center: [lng, lat],
 			zoom: zoom,
 		});
-		// @ts-ignore
-		map.current.on('load', () => {
-			// @ts-ignore
-			map.current.addSource('places', {
-				type: 'geojson',
-				data: {
-					type: 'FeatureCollection',
-					features: [
-						{
-							type: 'Feature',
-							properties: {
-								description: `<strong>Example Description</strong><p>Text goes here.<p>`,
-								icon: 'theatre'
-							},
-							geometry: {
-								type: 'Point',
-								coordinates: [-86.6545, 48.6981]
-							}
-						}
-					]
-				}
-			});
-			// @ts-ignore
-			map.current.addLayer({
-				id: 'places',
-				type: 'symbol',
-				source: 'places',
-				layout: {
-					'icon-image': ['get', 'icon'],
-					'icon-allow-overlap': true
-				}
-			})
-		})
-		populateMapMarkers();
+		initializePage();
 	});
 
-	const populateMapMarkers = async (shipwrecks?: shipwreck[]) => {
-		if(!map.current) return
-		const shipwrecksArray = shipwrecks || (await getAllShipwrecks());
-		// map.current.a
+	const initializePage = async () => {
+		if(!map.current || map.current === null) return;
+		//@ts-ignore
+		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
+		shipList = await getAllShipwrecks();
+		updateMapMarkers();
+	}
+
+	const updateMapMarkers = () => {
+		const features = [];
+		for(let shipwreck of shipList) {
+			features.push({
+				type: 'Feature',
+				properties: {
+					description: 
+					`<strong>${shipwreck.name}</strong>
+					<p>Sank: ${shipwreck.dateSunk}</p>`,
+				},
+				geometry: {
+					type: 'Point',
+					coordinates: [shipwreck.coordinates.longitude || 0, shipwreck.coordinates.latitude || 0]
+				}
+			})
+		}
+		//@ts-ignore
+		map.current.addSource('places', {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: features
+			}
+		});
+		// @ts-ignore
+		map.current.addLayer({
+			id: 'places',
+			type: 'symbol',
+			source: 'places',
+			layout: {
+				'icon-image': 'customIcon',
+				'icon-size': 0.2,
+				'icon-allow-overlap': true
+			}
+		})
 	};
 
 	const getAllShipwrecks = async () => {
 		try {
 			const res = await fetch("/api/shipwrecks", { method: "GET" });
 			const data = await res.json();
-			console.log("returnedData: ", data);
+			return data;
 		} catch (err) {
 			console.warn(err);
 		}
@@ -80,6 +87,8 @@ export default function Home() {
 		fromYear: number,
 		toYear: number
 	) => {
+		//@ts-ignore
+		map.current.removeSource('places');
 		try {
 			const res = await fetch(
 				`/api/shipwrecks?getBySinkYear=${fromYear},${toYear}`,

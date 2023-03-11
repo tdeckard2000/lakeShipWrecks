@@ -8,10 +8,10 @@ export type shipwreck = {
     boatType?: string,
     dateSunk?: number,
     notes?: string,
-    coordinates: [
+    coordinates: {
         latitude?: number,
         longitude?: number
-    ],
+    },
     linkWiki?: string,
     linkImage?: string,
     stats: {
