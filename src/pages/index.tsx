@@ -117,27 +117,37 @@ export default function Home() {
 					<div className={styles.titleHeader}>Shipwrecks<span style={{fontSize: '12px'}}>.pro</span></div>
 					<div className={styles.navigationBody}>
 						<div className={[styles.toolsContainer, filtersOpen ? styles.toolsContainerOpened : ""].join(" ")}>
-							<div className={styles.button}>
-								<img src="search-icon.svg" alt="" />
-								<div>Search</div>
+							<div className={styles.toolsButtons}>
+								<div className={styles.button}>
+									<img src="search-icon.svg" alt="" />
+									<div>Search</div>
+								</div>
+								<div className={styles.button} onClick={() => setFiltersOpen(!filtersOpen)}>
+									<img src="filter-icon.svg" alt="" />
+									<div>Filter</div>
+								</div>
+								<div className={styles.button} style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} onClick={resetFilters}>
+									<img src="reset-icon.svg" alt="" />
+									<div>Reset</div>
+								</div>
 							</div>
-							<div className={styles.button} onClick={() => setFiltersOpen(!filtersOpen)}>
-								<img src="filter-icon.svg" alt="" />
-								<div>Filter</div>
+							<div className={[styles.filtersContainer, filtersOpen ? styles.filtersContainerOpened : ""].join(" ")} >
+									<div className={styles.filterTool}>
+										Year sunk
+									</div>
+									<div className={styles.filterTool}>
+										Location
+									</div>
+									<div className={styles.filterTool}>
+										Water Depth
+									</div>
+									<div className={styles.filterTool}>
+										Ship Weight
+									</div>
+								</div>
 							</div>
-							<div className={styles.button} style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} onClick={resetFilters}>
-								<img src="reset-icon.svg" alt="" />
-								<div>Reset</div>
-							</div>
-						</div>
-						<div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none',margin: 'auto', width: '30px'}}></div>
-							{console.log('ships: ', shipList)}
+							<div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div>
 						<div className={styles.listContainer}>
-							{/* <div className={styles.listItem}>Ship One</div>
-							<div className={styles.listItem}>Ship Two</div>
-							<div className={styles.listItem}>Ship Three</div>
-							<div className={styles.listItem}>Ship Four</div>
-							<div className={styles.listItem}>Ship Five</div> */}
 							{shipList.map((ship, index) => (
 								<div key={index} className={styles.listItem}>{ship.name}</div>
 							))}

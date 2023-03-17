@@ -35,10 +35,35 @@
 		padding: 0 30px;
 	}
 
+	.filtersContainer {
+		flex-direction: column;
+		height: 100%;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity .2s;
+		-webkit-transition: opacity .2s;
+
+		.filterTool {
+			margin-top: 20px;
+
+			&:hover {
+				color: blueviolet;
+			}
+		}
+	}
+
+	.filtersContainerOpened {
+		display: flex;
+		opacity: 1;
+		pointer-events: auto;
+		transition: opacity .2s;
+		-webkit-transition: opacity .2s;
+	}
+
 	.listContainer {
 		height: 220px;
 		overflow: auto;
-		padding: 30px 0;
+		padding: 0 0 30px 0;
 		text-align: center;
 		-ms-overflow-style: none;  /* IE and Edge */
 		scrollbar-width: none;  /* Firefox */
@@ -61,12 +86,10 @@
 		}
 	}
 
-	.toolsContainer {
+	.toolsButtons {
 		display: flex;
 		flex-direction: row;
-		height: 60px;
 		justify-content: space-between;
-		transition: height .3s ease-out;
 
 		img {
 			height: 24px;
@@ -90,6 +113,12 @@
 			}
 		}
 
+	}
+
+	.toolsContainer {
+		height: 60px;
+		margin-bottom: 20px;
+		transition: height .3s ease-out;
 	}
 
 	.toolsContainerOpened {
