@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb"
 import { type } from "os"
 
 export type shipwreck = {
-    _id?: ObjectId,
+    _id: ObjectId,
     name: string,
     location: string,
     boatType?: string,

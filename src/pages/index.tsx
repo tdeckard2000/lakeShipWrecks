@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
-	let shipList: shipwreck[] = [];
+	// let shipList: shipwreck[] = [];
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [filtersActive, setFiltersActive] = useState<boolean>(false);
@@ -19,6 +19,7 @@ export default function Home() {
 	const [lng, setLng] = useState(-85.15);
 	const [lat, setLat] = useState(44.5);
 	const [zoom, setZoom] = useState(5.5);
+	const [shipList, setShipList] = useState<shipwreck[]>([]);
 
 	useEffect(() => {
 		if (map.current) return;
@@ -35,26 +36,30 @@ export default function Home() {
 		if(!map.current || map.current === null) return;
 		//@ts-ignore
 		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
-		shipList = await clientAPI.getAllShipwrecks();
-		updateMapMarkers();
+		let newShipList = await clientAPI.getAllShipwrecks();
+		console.log("initialized list: ", newShipList)
+		setShipList(newShipList);
+		updateMapMarkers(newShipList);
 	}
 
 	const filterBySinkYearRange = async (fromYear: number, toYear: number) => {
 		setFiltersActive(true);
 		const response = await clientAPI.getShipwrecksBySinkYearRange(fromYear, toYear);
-		shipList = response;
-		updateMapMarkers();
+		let newShipList = response;
+		setShipList(newShipList);
+		updateMapMarkers(newShipList);
 	}
 
 	const resetFilters = async () => {
 		setFiltersActive(false);
-		shipList = await clientAPI.getAllShipwrecks();
-		updateMapMarkers();
+		let newShipList = await clientAPI.getAllShipwrecks();
+		setShipList(newShipList);
+		updateMapMarkers(newShipList);
 	}
 
-	const updateMapMarkers = () => {
+	const updateMapMarkers = (listOfShips: shipwreck[]) => {
 		const features = [];
-		for(let shipwreck of shipList) {
+		for(let shipwreck of listOfShips) {
 			features.push({
 				type: 'Feature',
 				properties: {
@@ -102,14 +107,14 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Lake Shipwrecks</title>
+				<title>Shipwrecks.pro</title>
 				<meta name="description" content="Interactive Shipwreck Map" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
 				<div className={styles.navigationPanel}>
-					<div className={styles.titleHeader}>Lake Shipwrecks</div>
+					<div className={styles.titleHeader}>Shipwrecks<span style={{fontSize: '12px'}}>.pro</span></div>
 					<div className={styles.navigationBody}>
 						<div className={[styles.toolsContainer, filtersOpen ? styles.toolsContainerOpened : ""].join(" ")}>
 							<div className={styles.button}>
@@ -126,12 +131,16 @@ export default function Home() {
 							</div>
 						</div>
 						<div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none',margin: 'auto', width: '30px'}}></div>
+							{console.log('ships: ', shipList)}
 						<div className={styles.listContainer}>
-							<div className={styles.listItem}>Ship One</div>
+							{/* <div className={styles.listItem}>Ship One</div>
 							<div className={styles.listItem}>Ship Two</div>
 							<div className={styles.listItem}>Ship Three</div>
 							<div className={styles.listItem}>Ship Four</div>
-							<div className={styles.listItem}>Ship Five</div>
+							<div className={styles.listItem}>Ship Five</div> */}
+							{shipList.map((ship, index) => (
+								<div key={index} className={styles.listItem}>{ship.name}</div>
+							))}
 						</div>
 						<div style={{ paddingTop: "100px", textAlign: "center" }}>
 							<div>Dev Tools</div>
