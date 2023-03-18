@@ -54,6 +54,7 @@
 }
 
 .mobileTitle {
+	display: none;
 	font-weight: 200;
 	height: fit-content;
 	margin: 8px;
@@ -250,5 +251,9 @@
 	.mapContainer {
 		border-radius: 0px;
 		height: calc(100vh - 106px);
+	}
+
+	.mobileTitle {
+		display: block;
 	}
 }
