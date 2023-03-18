@@ -16,7 +16,7 @@
 	position: absolute;
 	left: 0;
 	width: 100vw;
-	height: fit-content;
+	height: 106px;
 	background-color: white;
 	z-index: 1000;
 
@@ -245,5 +245,10 @@
 
 	.listContainer {
 		display: none;
+	}
+
+	.mapContainer {
+		border-radius: 0px;
+		height: calc(100vh - 106px);
 	}
 }
