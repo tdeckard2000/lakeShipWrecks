@@ -9,12 +9,67 @@
 	width: 100vw;
 }
 
+.mobileNavPanel {
+	// border-radius: 20px 20px 0 0;
+	bottom: 0;
+	display: none;
+	position: absolute;
+	left: 0;
+	width: 100vw;
+	height: fit-content;
+	background-color: white;
+	z-index: 1000;
+
+	.mobileToolsButtons {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		margin: 18px 0;
+		opacity: .7;
+		text-align: center;
+
+		.mobileButton {
+			align-items: center;
+			border-radius: 6px;
+			cursor: pointer;
+			display: flex;
+			flex-direction: column;
+			font-size: 12px;
+			justify-content: center;
+			padding: 5px;
+			height: 60px;
+			width: 60px;
+			
+			&:hover {
+				background-color: rgb(238, 238, 238);
+			}
+		}
+
+		img {
+			margin-bottom: 5px;
+			height: 30px;
+		}
+
+	}
+}
+
+.mobileTitle {
+	font-weight: 200;
+	height: fit-content;
+	margin: 8px;
+	position: absolute;
+	top: 0;
+	width: fit-content;
+	z-index: 1000;
+}
+
 .navigationPanel {
 	background-color: rgb(255, 255, 255);
 	border-radius: 20px;
 	box-shadow: 0px 0px 10px #adadad;
 	font-weight: 500;
-	height: 75vh;
+	height: calc(100vh - 40px);
+	max-height: 685px;
 	left: 20px;
 	max-width: 300px;
 	opacity: .95;
@@ -60,10 +115,11 @@
 	}
 
 	.listContainer {
-		height: 220px;
-		margin: 24px 0;
+		height: 390px;
+		max-height: 80%;
+		margin: 0 0 24px 0;
 		overflow: auto;
-		padding: 0 0 30px 0;
+		position: relative;
 		text-align: center;
 		-ms-overflow-style: none;  /* IE and Edge */
 		scrollbar-width: none;  /* Firefox */
@@ -86,22 +142,26 @@
 			
 			.shipName {
 				font-size: 14px;
+				margin: 0 0 10px 0;
 				text-align: start;
 			}
 
 			.statsContainer {
 				display: flex;
 				flex-direction: row;
-				justify-content: space-around;
+				justify-content: space-between;
+				opacity: .7;
 
 				.shipStat {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
 					font-size: 11px;
+					width: 50px;
 					
 					img {
 						margin-right: 3px;
+						// opacity: .7;
 						height: 15px;
 					}
 				}
@@ -148,8 +208,12 @@
 	}
 
 	.toolsContainer {
+		box-shadow: 0px 8px 8px -10px #9b9b9b;
 		height: 70px;
+		padding-bottom: 10px;
+		position: relative;
 		transition: height .3s ease-out;
+    	z-index: 1000;
 	}
 
 	.toolsContainerOpened {
@@ -160,17 +224,23 @@
 
 @media screen and (max-width: 550px) {
 	.navigationPanel {
-		border-radius: 0 0 20px 20px;
-		height: 180px;
-		left: 0;
-		max-width: none;
-		top: 0;
-		width: 100vw;
+		display: none;
+		// border-radius: 0 0 20px 20px;
+		// position: absolute;
+		// height: 180px;
+		// left: 0;
+		// max-width: none;
+		// bottom: 0px;
+		// width: 100vw;
 
-		.titleHeader {
-			font-size: 18px;
-			padding: 35px;
-		}
+		// .titleHeader {
+		// 	font-size: 18px;
+		// 	padding: 35px;
+		// }
+	}
+
+	.mobileNavPanel {
+		display: block;
 	}
 
 	.listContainer {

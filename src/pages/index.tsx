@@ -132,43 +132,44 @@ export default function Home() {
 								</div>
 							</div>
 							<div className={[styles.filtersContainer, filtersOpen ? styles.filtersContainerOpened : ""].join(" ")} >
-									<div className={styles.filterTool}>
-										Year sunk
-									</div>
-									<div className={styles.filterTool}>
-										Location
-									</div>
-									<div className={styles.filterTool}>
-										Water Depth
-									</div>
-									<div className={styles.filterTool}>
-										Ship Weight
-									</div>
+								<div className={styles.filterTool}>
+									Year sunk
+								</div>
+								<div className={styles.filterTool}>
+									Location
+								</div>
+								<div className={styles.filterTool}>
+									Water Depth
+								</div>
+								<div className={styles.filterTool}>
+									Ship Weight
 								</div>
 							</div>
-							{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
+						</div>
+						{/* <div style={{borderTop: '2px solid #e7e7e7', margin: 'auto', width: '90%'}}></div> */}
+						{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
 						<div className={styles.listContainer}>
 							{shipList.map((ship, index) => (
 								<div key={index} className={styles.listItem}>
 									<div className={styles.shipName}>{ship.name}</div>
 									<div className={styles.statsContainer}>
 										<div className={styles.shipStat}>
-											<img src="water-icon.svg" alt="" /> 
-											<div>{ship.stats.waterDepth} ft</div>
+											<img src="calendar-icon.svg" alt="" /> 
+											<div>{ship.dateSunk?.toString().substring(0, 4)}</div>
 										</div>
 										<div className={styles.shipStat}>
-											<img src="weight-icon.svg" alt="" /> 
-											<div>{ship.stats.grossTons} gt</div>
+											<img src="length-icon.svg" alt="" /> 
+											<div>{ship.stats.length}ft</div>
 										</div>
 										<div className={styles.shipStat}>
 											<img src="water-icon.svg" alt="" /> 
-											<div>{ship.stats.waterDepth} ft</div>
+											<div>{ship.stats.waterDepth}ft</div>
 										</div>
 									</div>
 								</div>
 							))}
 						</div>
-						<div style={{ paddingTop: "100px", textAlign: "center" }}>
+						<div style={{ paddingTop: "5px", textAlign: "center" }}>
 							<div>Dev Tools</div>
 							<button onClick={clientAPI.getShipwrecksByLocation}>
 								Get Shipwrecks By Location
@@ -176,6 +177,25 @@ export default function Home() {
 							<button onClick={() => filterBySinkYearRange(1885, 1897)}>
 								Get Shipwrecks By Sink Date
 							</button>
+						</div>
+					</div>
+				</div>
+				<div className={styles.mobileTitle}>
+								Shipwrecks<span>.pro</span>
+				</div>
+				<div className={styles.mobileNavPanel}>
+					<div className={styles.mobileToolsButtons}>
+						<div className={styles.mobileButton}>
+							<img src="search-icon.svg" alt="" />
+							<div>Search</div>
+						</div>
+						<div className={styles.mobileButton} onClick={() => setFiltersOpen(!filtersOpen)}>
+							<img src="filter-icon.svg" alt="" />
+							<div>Filter</div>
+						</div>
+						<div className={styles.mobileButton} style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} onClick={resetFilters}>
+							<img src="reset-icon.svg" alt="" />
+							<div>Reset</div>
 						</div>
 					</div>
 				</div>
