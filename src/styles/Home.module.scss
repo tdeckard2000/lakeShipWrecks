@@ -78,20 +78,38 @@
 			border-top: 1px solid #e7e7e7;
 			border-left: 1px solid white;
 			cursor: pointer;
-			display: flex;
-			font-size: 14px;
-			height: 30px;
+			// display: flex;
+			// flex-direction: column;
+			height: fit-content;
 			margin: 0 24px;
 			padding: 10px;
+			
+			.shipName {
+				font-size: 14px;
+				text-align: start;
+			}
+
+			.statsContainer {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+
+				.shipStat {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					font-size: 11px;
+					
+					img {
+						margin-right: 3px;
+						height: 15px;
+					}
+				}
+			}
+
 
 			&:hover {
 				background: linear-gradient(90deg, #ffffff 0%, #f1f1f1 50%, white 100%)
-				// background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(145,145,145,1) 50%, rgba(255,255,255,1) 100%);
-				// background: linear-gradient(90deg, rgba(145,145,145,1) 0%, rgba(255,255,255,1) 40%);
-				// border-left: 1px solid #424242;
-				// border-top: 1px solid #424242;
-				// background-color: #f3f3f3;
-				// box-shadow: 0px 0px 7px -3px black;
 			}
 		}
 	}
@@ -130,7 +148,7 @@
 	}
 
 	.toolsContainer {
-		height: 60px;
+		height: 70px;
 		transition: height .3s ease-out;
 	}
 

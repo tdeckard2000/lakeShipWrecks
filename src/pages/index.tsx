@@ -149,7 +149,23 @@ export default function Home() {
 							{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
 						<div className={styles.listContainer}>
 							{shipList.map((ship, index) => (
-								<div key={index} className={styles.listItem}>{ship.name}</div>
+								<div key={index} className={styles.listItem}>
+									<div className={styles.shipName}>{ship.name}</div>
+									<div className={styles.statsContainer}>
+										<div className={styles.shipStat}>
+											<img src="water-icon.svg" alt="" /> 
+											<div>{ship.stats.waterDepth} ft</div>
+										</div>
+										<div className={styles.shipStat}>
+											<img src="weight-icon.svg" alt="" /> 
+											<div>{ship.stats.grossTons} ft</div>
+										</div>
+										<div className={styles.shipStat}>
+											<img src="water-icon.svg" alt="" /> 
+											<div>{ship.stats.waterDepth} ft</div>
+										</div>
+									</div>
+								</div>
 							))}
 						</div>
 						<div style={{ paddingTop: "100px", textAlign: "center" }}>
