@@ -158,7 +158,7 @@ export default function Home() {
 										</div>
 										<div className={styles.shipStat}>
 											<img src="weight-icon.svg" alt="" /> 
-											<div>{ship.stats.grossTons} ft</div>
+											<div>{ship.stats.grossTons} gt</div>
 										</div>
 										<div className={styles.shipStat}>
 											<img src="water-icon.svg" alt="" /> 
