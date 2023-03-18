@@ -146,7 +146,7 @@ export default function Home() {
 									</div>
 								</div>
 							</div>
-							<div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div>
+							{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
 						<div className={styles.listContainer}>
 							{shipList.map((ship, index) => (
 								<div key={index} className={styles.listItem}>{ship.name}</div>

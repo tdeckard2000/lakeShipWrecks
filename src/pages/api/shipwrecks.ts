@@ -69,7 +69,6 @@ const getShipsBySinkYear = async function(fromYear: string, toYear: string) {
         const db = client.db("main");
         console.log(fromDate, " - ", toDate)
         const res = await db.collection("shipwrecks").find({dateSunk: {$gte: fromDate, $lte: toDate}}).toArray();
-        console.log("res -- ", res)
         return res as shipwreck[];
      } catch (e) {
         console.warn("error: ", e)
