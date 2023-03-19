@@ -6,6 +6,7 @@ import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { shipwreck } from "@/types";
 import * as clientAPI from "@/clientAPI";
+import MobileInterface from "./mobileInterface";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -180,24 +181,13 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-				<div className={styles.mobileTitle}>
-								Shipwrecks<span>.pro</span>
-				</div>
-				<div className={styles.mobileNavPanel}>
-					<div className={styles.mobileToolsButtons}>
-						<div className={styles.mobileButton}>
-							<img src="search-icon.svg" alt="" />
-							<div>Search</div>
-						</div>
-						<div className={styles.mobileButton} onClick={() => setFiltersOpen(!filtersOpen)}>
-							<img src="filter-icon.svg" alt="" />
-							<div>Filter</div>
-						</div>
-						<div className={styles.mobileButton} style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} onClick={resetFilters}>
-							<img src="reset-icon.svg" alt="" />
-							<div>Reset</div>
-						</div>
-					</div>
+				<div className={styles.mobileInterface}>
+					<MobileInterface 
+						setFiltersOpen = {setFiltersOpen}
+						resetFilters = {resetFilters}
+						filtersActive = {filtersActive}
+						filtersOpen = {filtersOpen}			
+					></MobileInterface>
 				</div>
 				<div>
 					<div ref={mapContainer} className={styles.mapContainer}></div>
