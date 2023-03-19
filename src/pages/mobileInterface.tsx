@@ -12,32 +12,30 @@ interface Props {
 const MobileInterface = (props: Props) => {
     return (
     <div>
-        {/* <div className={styles.mobileTitle}>
+        <div className={styles.title}>
             Shipwrecks<span>.pro</span>
-		</div> */}
-        <div className={styles.mobileNavPanel}>
-            <div className={styles.mobileToolsButtons}>
-                <div className={styles.mobileButton}>
+		</div>
+        <div className={styles.navPanel}>
+            <div className={styles.toolsButtons}>
+                <div className={styles.button}>
                     <img src="search-icon.svg" alt="" />
                     <div>Search</div>
                 </div>
-                <div className={styles.mobileButton} onClick={() => props.setFiltersOpen(!props.filtersOpen)}>
+                <div className={styles.button} onClick={() => props.setFiltersOpen(!props.filtersOpen)}>
                     <img src="filter-icon.svg" alt="" />
                     <div>Filter</div>
                 </div>
-                <div className={styles.mobileButton} style={{pointerEvents: props.filtersActive ? 'auto' : 'none', opacity: props.filtersActive ? '1' : '.5'}} onClick={() => props.resetFilters()}>
+                <div className={styles.button} style={{pointerEvents: props.filtersActive ? 'auto' : 'none', opacity: props.filtersActive ? '1' : '.5'}} onClick={() => props.resetFilters()}>
                     <img src="reset-icon.svg" alt="" />
                     <div>Reset</div>
-                    <div>open - {props.filtersOpen.toString()}</div>
                 </div>
             </div>
         </div>
         <div className={props.filtersOpen ? styles.filterModalVisible : styles.filterModalHidden}>
-            <div className={styles.mobileTitle}>
-            Shipwrecks<span>.pro</span>
-		    </div>
             <ModalComponent>
-                <div>Test</div>
+                <div>Filter Component</div>
+                <div>Goes Here</div>
+                <div>: )</div>
             </ModalComponent>
         </div>
     </div>

@@ -41,7 +41,6 @@
 	}
 
 	.filtersContainer {
-		// background-color: rgb(241, 241, 241);
 		border-radius: 6px;
 		flex-direction: column;
 		height: calc(100% - 60px);
@@ -80,12 +79,9 @@
 
 		.listItem {
 			align-items: center;
-			// border-bottom: 1px solid #e7e7e7;
 			border-top: 1px solid #e7e7e7;
 			border-left: 1px solid white;
 			cursor: pointer;
-			// display: flex;
-			// flex-direction: column;
 			height: fit-content;
 			margin: 0 24px;
 			padding: 10px;
@@ -175,18 +171,6 @@
 @media screen and (max-width: 550px) {
 	.navigationPanel {
 		display: none;
-		// border-radius: 0 0 20px 20px;
-		// position: absolute;
-		// height: 180px;
-		// left: 0;
-		// max-width: none;
-		// bottom: 0px;
-		// width: 100vw;
-
-		// .titleHeader {
-		// 	font-size: 18px;
-		// 	padding: 35px;
-		// }
 	}
 
 	.listContainer {
@@ -195,7 +179,7 @@
 
 	.mapContainer {
 		border-radius: 0px;
-		height: calc(100vh - 106px);
+		height: calc(100vh - 80px);
 	}
 
 	.mobileInterface {
