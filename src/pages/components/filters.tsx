@@ -30,11 +30,11 @@ const FiltersComponent = (props: Props) => {
             </div>
             <hr />
             <div className={styles.filterItem}>
-                <span className={styles.filterLabel}>Sank Year Min</span>
+                <span className={styles.filterLabel}>Sink Year Min</span>
                 <input max={9999} inputMode="numeric" placeholder='any' type="number" />
             </div>
             <div className={styles.filterItem}>
-                <span className={styles.filterLabel}>Sank Year Max</span>
+                <span className={styles.filterLabel}>Sink Year Max</span>
                 <input max={9999} inputMode="numeric" placeholder='any' type="number" />
             </div>
             <hr />
