@@ -1,6 +1,7 @@
-import ModalComponent from "./components/modal"
-import styles from "@/styles/MobileInterface.module.scss"
-import React, { useState } from "react"
+import ModalComponent from "./components/modal";
+import styles from "@/styles/MobileInterface.module.scss";
+import React, { useState } from "react";
+import FiltersComponent from "./components/filters";
 
 interface Props {
     resetFilters: Function;
@@ -83,7 +84,7 @@ const MobileInterface = (props: Props) => {
                 </div>
                 <div className={[styles.button, props.filtersOpen? styles.buttonSelected: ''].join(' ')} onClick={() => toggleBottomModal('filters')}>
                     <img src="filter-icon.svg" alt="" />
-                    <div>Filter</div>
+                    <div>Filters</div>
                 </div>
                 <div className={[styles.button, props.settingsOpen? styles.buttonSelected: ''].join(' ')} onClick={() => toggleBottomModal('settings')}>
                     <img src="settings-icon.svg" alt="" />
@@ -92,7 +93,8 @@ const MobileInterface = (props: Props) => {
             </div>
         </div>
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
-            <ModalComponent 
+            <ModalComponent
+                borderRadius="12px 12px 0 0"
                 height="300px" 
                 width="100%" 
                 bottom="0" 
@@ -105,13 +107,7 @@ const MobileInterface = (props: Props) => {
                     <div>Search --</div>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
-                    <div>Filter --</div>
-                        <div>
-                            <div className={styles.button} style={{pointerEvents: props.filtersActive ? 'auto' : 'none', opacity: props.filtersActive ? '1' : '.5'}} onClick={() => props.resetFilters()}>
-                            <img src="reset-icon.svg" alt="" />
-                            <div>Reset</div>
-                        </div>
-                    </div>
+                    <FiltersComponent resetButtonCallback={props.resetFilters}></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>
                     <div>Settings --</div>

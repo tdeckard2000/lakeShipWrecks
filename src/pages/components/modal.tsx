@@ -10,6 +10,7 @@ interface Props {
     top?: string;
     width?: string;
     zIndex?: string;
+    borderRadius?: string;
     closeButtonCallback?: Function;
 }
 
@@ -18,6 +19,7 @@ const ModalComponent = (props: Props) => {
     return (
         <div className={styles.modalOuterContainer} style={{
             bottom: props.bottom,
+            borderRadius: props.borderRadius,
             height: props.height, 
             left: props.left, 
             top: props.top, 
@@ -30,7 +32,7 @@ const ModalComponent = (props: Props) => {
                     <div style={{opacity: props.hideCloseButton ? '0' : 'flex'}} 
                     className={styles.closeButton}
                     onClick={() => props.closeButtonCallback?  props.closeButtonCallback() : ''}
-                    >x</div>
+                    ><img src="close-icon.svg" alt="" /></div>
                 </div>
                 {props.children}
             </div>

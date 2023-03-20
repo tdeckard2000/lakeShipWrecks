@@ -1,0 +1,54 @@
+.filterBody {
+    height: 255px;
+    padding: 10px;
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.filterLabel {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.filterItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 12px 5px;
+
+    input {
+        text-align: center;
+        width: 50px;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+}
+
+.resetButton {
+    bottom: 0;
+    cursor: pointer;
+    margin: 10px;
+    position: absolute;
+    right: 0;
+    text-align: end;
+    width: fit-content;
+
+    img {
+        height: 25px;
+    }
+}

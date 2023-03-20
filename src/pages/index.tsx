@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { shipwreck } from "@/types";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
+import FiltersComponent from "./components/filters";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -134,18 +135,9 @@ export default function Home() {
 								</div>
 							</div>
 							<div className={[styles.filtersContainer, filtersOpen ? styles.filtersContainerOpened : ""].join(" ")} >
-								<div className={styles.filterTool}>
-									Year sunk
-								</div>
-								<div className={styles.filterTool}>
-									Location
-								</div>
-								<div className={styles.filterTool}>
-									Water Depth
-								</div>
-								<div className={styles.filterTool}>
-									Ship Weight
-								</div>
+								<FiltersComponent
+									resetButtonCallback={resetFilters}
+								></FiltersComponent>
 							</div>
 						</div>
 						{/* <div style={{borderTop: '2px solid #e7e7e7', margin: 'auto', width: '90%'}}></div> */}
