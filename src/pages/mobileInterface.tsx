@@ -15,7 +15,13 @@ interface Props {
 
 const MobileInterface = (props: Props) => {
     const [bottomModalOpen, setBottomModalOpen] = useState<boolean>(false);
-    const [bottomModalTitle, setBottomModalTitle] = useState<string>('')
+    const [bottomModalTitle, setBottomModalTitle] = useState<string>('');
+    const modalCloseClicked = () => {
+        setBottomModalOpen(false);
+        props.setSearchOpen(false);
+        props.setFiltersOpen(false);
+        props.setSettingsOpen(false);
+    }
     const toggleBottomModal = (modalName: 'search' | 'filters' | 'settings') => {
         setBottomModalOpen(false);
         switch(modalName) {
@@ -86,7 +92,15 @@ const MobileInterface = (props: Props) => {
             </div>
         </div>
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
-            <ModalComponent height="300px" width="100%" bottom="0" left="0" top="unset" title={bottomModalTitle}>
+            <ModalComponent 
+                height="300px" 
+                width="100%" 
+                bottom="0" 
+                left="0" 
+                top="unset" 
+                title={bottomModalTitle}
+                closeButtonCallback = {modalCloseClicked}
+                >
                 <div style={{display: props.searchOpen ? 'block' : 'none'}} className={styles.searchContainer}>
                     <div>Search --</div>
                 </div>

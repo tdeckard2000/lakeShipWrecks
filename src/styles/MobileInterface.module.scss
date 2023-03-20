@@ -10,6 +10,7 @@
 	bottom: -230px;
 	height: 300px;
 	left: 0;
+	opacity: .93;
 	pointer-events: none;
 	position: absolute;
 	transition: bottom .2s;
@@ -22,6 +23,7 @@
 	bottom: 0;
 	height: 300px;
 	left: 0;
+	opacity: .93;
 	pointer-events: auto;
 	position: absolute;
 	transition: bottom .2s;
@@ -68,7 +70,7 @@
 
 		img {
 			margin-bottom: 5px;
-			height: 20px;
+			height: 18px;
 		}
 
 	}
