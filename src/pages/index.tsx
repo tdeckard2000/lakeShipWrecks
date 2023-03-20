@@ -40,7 +40,6 @@ export default function Home() {
 		//@ts-ignore
 		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
 		let newShipList = await clientAPI.getAllShipwrecks();
-		console.log("initialized list: ", newShipList)
 		setShipList(newShipList);
 		updateMapMarkers(newShipList);
 	}

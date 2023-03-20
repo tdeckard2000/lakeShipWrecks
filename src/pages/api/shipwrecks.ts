@@ -25,7 +25,7 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
                 }
                 break;
             default:
-                console.log("default switch catch")
+                console.warn("unexpected shipwrecks API state")
                 break;
         }
     } else if(req.method === "POST") {
@@ -51,7 +51,6 @@ const getShipsByLocation = async function(location: string) {
         const client = await clientPromise;
         const db = client.db("main");
         const res = await db.collection("shipwrecks").find({location: location}).toArray();
-        console.log("res -- ", res)
         return res as shipwreck[];
      } catch (e) {
         console.warn("error: ", e)

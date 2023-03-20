@@ -1,4 +1,4 @@
-.modalBody {
+.modalOuterContainer{
     background-color: white;
     border-radius: 12px;
     box-shadow: 0px 2px 15px rgb(128, 128, 128);
@@ -8,4 +8,13 @@
     top: calc(50vh - 200px);
     width: 200px;
     z-index: 1000;
+}
+
+.modalInnerContainer {
+    padding: 12px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 500;
 }
