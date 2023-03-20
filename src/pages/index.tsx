@@ -17,6 +17,8 @@ export default function Home() {
 	const map = useRef(null);
 	const [filtersActive, setFiltersActive] = useState<boolean>(false);
 	const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
+	const [searchOpen, setSearchOpen] = useState<boolean>(false);
+	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const [lng, setLng] = useState(-85.15);
 	const [lat, setLat] = useState(44.5);
 	const [zoom, setZoom] = useState(5.5);
@@ -184,9 +186,13 @@ export default function Home() {
 				<div className={styles.mobileInterface}>
 					<MobileInterface 
 						setFiltersOpen = {setFiltersOpen}
+						setSearchOpen = {setSearchOpen}
+						setSettingsOpen = {setSettingsOpen}
 						resetFilters = {resetFilters}
 						filtersActive = {filtersActive}
-						filtersOpen = {filtersOpen}			
+						filtersOpen = {filtersOpen}
+						searchOpen = {searchOpen}
+						settingsOpen = {settingsOpen}
 					></MobileInterface>
 				</div>
 				<div>
