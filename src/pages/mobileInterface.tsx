@@ -129,10 +129,10 @@ const MobileInterface = (props: Props) => {
                     <div>Search --</div>
                 </div>
                 <div style={{display: listOpen ? 'block' : 'none'}} className={styles.listContainer}>
-                    <ShipListComponent shipList={props.shipList}></ShipListComponent>
+                    <ShipListComponent listHeight="245px" shipList={props.shipList}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
-                    <FiltersComponent resetButtonCallback={props.resetFilters}></FiltersComponent>
+                    <FiltersComponent height="235px" resetButtonCallback={props.resetFilters}></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>
                     <div>Settings --</div>

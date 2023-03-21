@@ -5,6 +5,7 @@ interface Props {
     labelFontSize?: string;
     inputFontSize?: string;
     resetButtonCallback?: Function;
+    height?:string;
 }
 
 const FiltersComponent = (props: Props) => {
@@ -12,7 +13,7 @@ const FiltersComponent = (props: Props) => {
 
 
     return (
-    <div className={styles.filterBody}>
+    <div className={styles.filterBody} style={{height: props.height}}>
         <div>{props.children}</div>
         <div className='styles.filtersContainer'>
             <div className={styles.filterItem}>

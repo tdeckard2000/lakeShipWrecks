@@ -2,13 +2,14 @@ import styles from '@/styles/ShipListComponent.module.scss'
 import { shipwreck } from '@/types';
 
 interface Props {
-    shipList: shipwreck[]
+    listHeight?: string;
+    shipList: shipwreck[];
     children?: any;
 }
 
 const ShipListComponent = (props: Props) => {
     return (
-    <div className={styles.listContainer}>
+    <div className={styles.listContainer} style={{height: props.listHeight}}>
         {props.shipList.map((ship, index) => (
             <div key={index} className={styles.listItem}>
                 <div className={styles.shipName}>{ship.name}</div>

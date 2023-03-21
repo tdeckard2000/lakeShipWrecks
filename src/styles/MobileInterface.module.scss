@@ -23,13 +23,21 @@
 	bottom: 70px;
 	height: 300px;
 	left: 0;
-	opacity: .93;
+	opacity: .95;
 	pointer-events: auto;
 	position: absolute;
 	transition: bottom .2s;
 	-webkit-transition: bottom .2s;
 	width: 100%;
 	z-index: 100;
+}
+
+.filterContainer {
+	margin-top: 10px;
+}
+
+.listContainer {
+	margin-top: 10px;
 }
 
 .navPanel {
@@ -77,7 +85,7 @@
 }
 
 .searchContainer {
-	margin: 10px;
+	margin: 12px;
 	height: 1000px;
 	padding: 10px;
 	position: relative;
