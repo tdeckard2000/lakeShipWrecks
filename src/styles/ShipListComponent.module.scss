@@ -1,0 +1,56 @@
+.listContainer {
+    height: 390px;
+    max-height: 80%;
+    margin: 0 0 24px 0;
+    overflow: auto;
+    position: relative;
+    text-align: center;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .listItem {
+        align-items: center;
+        border-top: 1px solid #e7e7e7;
+        border-left: 1px solid white;
+        cursor: pointer;
+        height: fit-content;
+        margin: 0 24px;
+        padding: 10px;
+        
+        .shipName {
+            font-size: 14px;
+            margin: 0 0 10px 0;
+            text-align: start;
+        }
+
+        .statsContainer {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            opacity: .7;
+
+            .shipStat {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-size: 11px;
+                width: 50px;
+                
+                img {
+                    margin-right: 3px;
+                    // opacity: .7;
+                    height: 15px;
+                }
+            }
+        }
+
+
+        &:hover {
+            background: linear-gradient(90deg, #ffffff 0%, #f1f1f1 50%, white 100%)
+        }
+    }
+}

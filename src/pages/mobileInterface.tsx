@@ -2,6 +2,8 @@ import ModalComponent from "./components/modal";
 import styles from "@/styles/MobileInterface.module.scss";
 import React, { useState } from "react";
 import FiltersComponent from "./components/filters";
+import ShipListComponent from "./components/shipList";
+import { shipwreck } from "@/types";
 
 interface Props {
     resetFilters: Function;
@@ -12,18 +14,24 @@ interface Props {
     filtersOpen: boolean;
     settingsOpen: boolean;
     searchOpen: boolean;
+    shipList: shipwreck[];
 }
 
 const MobileInterface = (props: Props) => {
     const [bottomModalOpen, setBottomModalOpen] = useState<boolean>(false);
     const [bottomModalTitle, setBottomModalTitle] = useState<string>('');
+    const [listOpen, setListOpen] = useState<boolean>(false);
     const modalCloseClicked = () => {
         setBottomModalOpen(false);
+        hideAllModalBodies();
+    }
+    const hideAllModalBodies = () => {
         props.setSearchOpen(false);
         props.setFiltersOpen(false);
         props.setSettingsOpen(false);
+        setListOpen(false);
     }
-    const toggleBottomModal = (modalName: 'search' | 'filters' | 'settings') => {
+    const toggleBottomModal = (modalName: 'search' | 'list' | 'filters' | 'settings') => {
         setBottomModalOpen(false);
         switch(modalName) {
             //timeouts allows modal content
@@ -31,23 +39,34 @@ const MobileInterface = (props: Props) => {
             case 'search':
                 if(!props.searchOpen){
                     setTimeout(()=> {
+                        hideAllModalBodies();
                         setBottomModalTitle('Search');
                         props.setSearchOpen(true)
-                        props.setFiltersOpen(false);
-                        props.setSettingsOpen(false);
                         setBottomModalOpen(true);
                     }, 150)
                 } else {
                     props.setSearchOpen(false);
                 }
                 break;
+            //to switch while off screen
+            case 'list':
+                if(!listOpen){
+                    setTimeout(()=> {
+                        hideAllModalBodies();
+                        setBottomModalTitle('List');
+                        setListOpen(true)
+                        setBottomModalOpen(true);
+                    }, 150)
+                } else {
+                    setListOpen(false);
+                }
+                break;
             case 'filters':
                 if(!props.filtersOpen){
                     setTimeout(()=> {
+                        hideAllModalBodies();
                         setBottomModalTitle('Filters');
-                        props.setSearchOpen(false)
                         props.setFiltersOpen(true);
-                        props.setSettingsOpen(false);
                         setBottomModalOpen(true);
                     }, 150)
                 } else {
@@ -57,9 +76,8 @@ const MobileInterface = (props: Props) => {
             case 'settings':
                 if(!props.settingsOpen){
                     setTimeout(()=> {
+                        hideAllModalBodies();
                         setBottomModalTitle('Settings');
-                        props.setSearchOpen(false)
-                        props.setFiltersOpen(false);
                         props.setSettingsOpen(true);
                         setBottomModalOpen(true);
                     }, 150)
@@ -81,6 +99,10 @@ const MobileInterface = (props: Props) => {
                 <div className={[styles.button, props.searchOpen? styles.buttonSelected: ''].join(' ')} onClick={() => toggleBottomModal('search')}>
                     <img src="search-icon.svg" alt="" />
                     <div>Search</div>
+                </div>
+                <div className={[styles.button, listOpen? styles.buttonSelected: ''].join(' ')} onClick={() => toggleBottomModal('list')}>
+                    <img src="list-icon.svg" alt="" />
+                    <div>List</div>
                 </div>
                 <div className={[styles.button, props.filtersOpen? styles.buttonSelected: ''].join(' ')} onClick={() => toggleBottomModal('filters')}>
                     <img src="filter-icon.svg" alt="" />
@@ -105,6 +127,9 @@ const MobileInterface = (props: Props) => {
                 >
                 <div style={{display: props.searchOpen ? 'block' : 'none'}} className={styles.searchContainer}>
                     <div>Search --</div>
+                </div>
+                <div style={{display: listOpen ? 'block' : 'none'}} className={styles.listContainer}>
+                    <ShipListComponent shipList={props.shipList}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
                     <FiltersComponent resetButtonCallback={props.resetFilters}></FiltersComponent>

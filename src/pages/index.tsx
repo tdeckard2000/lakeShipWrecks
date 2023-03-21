@@ -8,6 +8,7 @@ import { shipwreck } from "@/types";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
+import ShipListComponent from "./components/shipList";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -142,27 +143,7 @@ export default function Home() {
 						</div>
 						{/* <div style={{borderTop: '2px solid #e7e7e7', margin: 'auto', width: '90%'}}></div> */}
 						{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
-						<div className={styles.listContainer}>
-							{shipList.map((ship, index) => (
-								<div key={index} className={styles.listItem}>
-									<div className={styles.shipName}>{ship.name}</div>
-									<div className={styles.statsContainer}>
-										<div className={styles.shipStat}>
-											<img src="calendar-icon.svg" alt="" /> 
-											<div>{ship.dateSunk?.toString().substring(0, 4)}</div>
-										</div>
-										<div className={styles.shipStat}>
-											<img src="length-icon.svg" alt="" /> 
-											<div>{ship.stats.length}ft</div>
-										</div>
-										<div className={styles.shipStat}>
-											<img src="water-icon.svg" alt="" /> 
-											<div>{ship.stats.waterDepth}ft</div>
-										</div>
-									</div>
-								</div>
-							))}
-						</div>
+						<ShipListComponent shipList={shipList}></ShipListComponent>
 						<div style={{ paddingTop: "5px", textAlign: "center" }}>
 							<div>Dev Tools</div>
 							<button onClick={clientAPI.getShipwrecksByLocation}>
@@ -184,6 +165,7 @@ export default function Home() {
 						filtersOpen = {filtersOpen}
 						searchOpen = {searchOpen}
 						settingsOpen = {settingsOpen}
+						shipList = {shipList}
 					></MobileInterface>
 				</div>
 				<div>
