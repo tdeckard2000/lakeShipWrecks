@@ -10,7 +10,7 @@ interface Props {
 const ShipListComponent = (props: Props) => {
     return (
     <div className={styles.listContainer} style={{height: props.listHeight}}>
-        {props.shipList.map((ship, index) => (
+        {props.shipList ? props.shipList.map((ship, index) => (
             <div key={index} className={styles.listItem}>
                 <div className={styles.shipName}>{ship.name}</div>
                 <div className={styles.statsContainer}>
@@ -28,7 +28,7 @@ const ShipListComponent = (props: Props) => {
                     </div>
                 </div>
             </div>
-        ))}
+        )) : ''}
         <div>{props.children}</div>
     </div>
     )
