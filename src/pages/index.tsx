@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { shipwreck } from "@/types";
+import { shipwreck } from "@/interfaces";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";

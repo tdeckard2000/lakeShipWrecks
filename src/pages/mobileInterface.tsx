@@ -3,7 +3,7 @@ import styles from "@/styles/MobileInterface.module.scss";
 import React, { useState } from "react";
 import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
-import { shipwreck } from "@/types";
+import { shipwreck } from "@/interfaces";
 
 interface Props {
     resetFilters: Function;
@@ -117,7 +117,7 @@ const MobileInterface = (props: Props) => {
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
             <ModalComponent
                 borderRadius="12px 12px 0 0"
-                height="300px" 
+                height="400px" 
                 width="100%" 
                 bottom="0" 
                 left="0" 
@@ -129,10 +129,10 @@ const MobileInterface = (props: Props) => {
                     <div>Search --</div>
                 </div>
                 <div style={{display: listOpen ? 'block' : 'none'}} className={styles.listContainer}>
-                    <ShipListComponent listHeight="245px" shipList={props.shipList}></ShipListComponent>
+                    <ShipListComponent listHeight="345px" shipList={props.shipList}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
-                    <FiltersComponent height="235px" resetButtonCallback={props.resetFilters}></FiltersComponent>
+                    <FiltersComponent height="330px" resetButtonCallback={props.resetFilters}></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>
                     <div>Settings --</div>
