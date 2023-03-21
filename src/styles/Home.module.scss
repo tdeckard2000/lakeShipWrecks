@@ -37,7 +37,8 @@
 	}
 
 	.navigationBody {
-		// padding: 0 24px;
+		height: calc(100% - 130px);
+		position: relative;
 	}
 
 	.filtersContainer {

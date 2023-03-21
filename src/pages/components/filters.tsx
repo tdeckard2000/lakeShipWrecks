@@ -9,10 +9,13 @@ interface Props {
     resetButtonCallback?: Function;
     height?: string;
     formCallback: Function;
+    setFiltersActive: Function;
+    filtersActive: boolean;
 }
 
 const FiltersComponent = (props: Props) => {
     const filtersActive = true; //more needed
+    
     const [form, setForm] = useState<ShipwreckFilters>
     ({
         hideOffscreen: true,
@@ -27,19 +30,40 @@ const FiltersComponent = (props: Props) => {
         listMissingShips: false,
         sortBy: 'name'
     });
+    
     const handleChange = async (event: any) => {
+        props.setFiltersActive(true);
         setForm({
             ...form,
             [event.target.id]: event.target.value
         });
     };
+    
     useEffect(() => {
         props.formCallback(form);
     }, [form])
+    
     const handleSubmit = (event: any) => {
         event.preventDefault();
         console.warn("--- filter submit ---")
     }
+
+    useEffect(() => {
+        setForm(
+            {
+                hideOffscreen: true,
+                wreckDepthMin: 0,
+                wreckDepthMax: 0,
+                sinkYearMin: 0,
+                sinkYearMax: 0,
+                weightMin: 0,
+                weightMax: 0,
+                shipLengthMin: 0,
+                shipLengthMax: 0,
+                listMissingShips: false,
+                sortBy: 'name'
+            })
+    }, [props.filtersActive])
 
     return (
     <div className={styles.filterBody} style={{height: props.height}}>

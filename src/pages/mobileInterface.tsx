@@ -16,6 +16,7 @@ interface Props {
     searchOpen: boolean;
     shipList: Shipwreck[];
     handleFilterChange: Function;
+    setFiltersActive: Function;
 }
 
 const MobileInterface = (props: Props) => {
@@ -133,7 +134,13 @@ const MobileInterface = (props: Props) => {
                     <ShipListComponent listHeight="345px" shipList={props.shipList}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
-                    <FiltersComponent formCallback={props.handleFilterChange} height="330px" resetButtonCallback={props.resetFilters}></FiltersComponent>
+                    <FiltersComponent 
+                    formCallback={props.handleFilterChange} 
+                    height="330px" 
+                    resetButtonCallback={props.resetFilters}
+                    setFiltersActive={props.setFiltersActive}
+                    filtersActive={props.filtersActive}
+                    ></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>
                     <div>Settings --</div>

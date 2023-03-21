@@ -48,11 +48,12 @@ export default function Home() {
 	const handleFilterChange = async (filterParams: ShipwreckFilters) => {
 		const newShipList = await clientAPI.getFilteredShipwrecks(filterParams);
 		setShipList(newShipList);
+		updateMapMarkers(newShipList);
 	}
 
 	const resetFilters = async () => {
 		setFiltersActive(false);
-		let newShipList = await clientAPI.getAllShipwrecks();
+		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
 		updateMapMarkers(newShipList);
 	}
@@ -135,35 +136,27 @@ export default function Home() {
 								<FiltersComponent
 									formCallback={handleFilterChange}
 									resetButtonCallback={resetFilters}
+									setFiltersActive={setFiltersActive}
+									filtersActive={filtersActive}
 								></FiltersComponent>
 							</div>
 						</div>
-						{/* <div style={{borderTop: '2px solid #e7e7e7', margin: 'auto', width: '90%'}}></div> */}
-						{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
-						<ShipListComponent shipList={shipList}></ShipListComponent>
-						{/* <div style={{ paddingTop: "5px", textAlign: "center" }}>
-							<div>Dev Tools</div>
-							<button onClick={clientAPI.getShipwrecksByLocation}>
-								Get Shipwrecks By Location
-							</button>
-							<button onClick={() => filterBySinkYearRange(1885, 1897)}>
-								Get Shipwrecks By Sink Date
-							</button>
-						</div> */}
+						<ShipListComponent shipList={shipList} listHeight="calc(100% - 60px)"></ShipListComponent>
 					</div>
 				</div>
 				<div className={styles.mobileInterface}>
 					<MobileInterface 
-						setFiltersOpen = {setFiltersOpen}
-						setSearchOpen = {setSearchOpen}
-						setSettingsOpen = {setSettingsOpen}
-						resetFilters = {resetFilters}
-						filtersActive = {filtersActive}
-						filtersOpen = {filtersOpen}
-						searchOpen = {searchOpen}
-						settingsOpen = {settingsOpen}
-						shipList = {shipList}
-						handleFilterChange = {handleFilterChange}
+						setFiltersOpen={setFiltersOpen}
+						setSearchOpen={setSearchOpen}
+						setSettingsOpen={setSettingsOpen}
+						resetFilters={resetFilters}
+						filtersActive={filtersActive}
+						filtersOpen={filtersOpen}
+						searchOpen={searchOpen}
+						settingsOpen={settingsOpen}
+						shipList={shipList}
+						handleFilterChange={handleFilterChange}
+						setFiltersActive={setFiltersActive}
 					></MobileInterface>
 				</div>
 				<div>

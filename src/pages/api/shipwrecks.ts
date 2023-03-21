@@ -40,11 +40,12 @@ const getAllShips = async function() {
 
 const getFilteredShips = async function (filterParams: ShipwreckFilters) {
     const query = buildFilterQuery(filterParams)
+    const sort = filterParams.sortBy;
+    const formattedSort: string = (sort === 'depth' ? 'stats.waterDepth' : sort === 'yearSank' ? 'dateSunk' : 'name')
     try {
         const client = await clientPromise;
         const db = client.db("main");
-        console.log(query)
-        const res = await db.collection("shipwrecks").find(query).toArray();
+        const res = await db.collection("shipwrecks").find(query).sort({[formattedSort]: 1}).toArray();
         return res as Shipwreck[];
      } catch (e) {
         console.warn("error: ", e)
@@ -91,6 +92,9 @@ const buildFilterQuery = function (filterParams: ShipwreckFilters) {
     }
     if (p.listMissingShips != false) {
         query['$and'].push({'isMissing': true});
+    }
+    if(p.sortBy != "name") {
+        query['']
     }
 
     if(query['$and'].length) {

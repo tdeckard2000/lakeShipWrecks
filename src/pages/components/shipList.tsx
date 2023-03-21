@@ -16,15 +16,15 @@ const ShipListComponent = (props: Props) => {
                 <div className={styles.statsContainer}>
                     <div className={styles.shipStat}>
                         <img src="calendar-icon.svg" alt="" /> 
-                        <div>{ship.dateSunk?.toString().substring(0, 4)}</div>
+                        <div>{ship.dateSunk ? ship.dateSunk.toString().substring(0, 4) : '?'}</div>
                     </div>
                     <div className={styles.shipStat}>
                         <img src="length-icon.svg" alt="" /> 
-                        <div>{ship.stats.length}ft</div>
+                        <div>{ship.stats.length ? Math.trunc(ship.stats.length) : '?'} ft</div>
                     </div>
                     <div className={styles.shipStat}>
                         <img src="water-icon.svg" alt="" /> 
-                        <div>{ship.stats.waterDepth}ft</div>
+                        <div>{ship.stats.waterDepth != null ? Math.trunc(ship.stats.waterDepth) : '?'} ft</div>
                     </div>
                 </div>
             </div>
