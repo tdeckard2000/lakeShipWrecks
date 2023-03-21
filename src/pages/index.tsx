@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { shipwreck } from "@/interfaces";
+import { Shipwreck, ShipwreckFilters } from "@/interfaces";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
@@ -14,7 +14,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 	mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
-	// let shipList: shipwreck[] = [];
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [filtersActive, setFiltersActive] = useState<boolean>(false);
@@ -24,7 +23,7 @@ export default function Home() {
 	const [lng, setLng] = useState(-85.15);
 	const [lat, setLat] = useState(44.5);
 	const [zoom, setZoom] = useState(5.5);
-	const [shipList, setShipList] = useState<shipwreck[]>([]);
+	const [shipList, setShipList] = useState<Shipwreck[]>([]);
 
 	useEffect(() => {
 		if (map.current) return;
@@ -41,17 +40,14 @@ export default function Home() {
 		if(!map.current || map.current === null) return;
 		//@ts-ignore
 		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
-		let newShipList = await clientAPI.getAllShipwrecks();
+		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
 		updateMapMarkers(newShipList);
 	}
 
-	const filterBySinkYearRange = async (fromYear: number, toYear: number) => {
-		setFiltersActive(true);
-		const response = await clientAPI.getShipwrecksBySinkYearRange(fromYear, toYear);
-		let newShipList = response;
+	const handleFilterChange = async (filterParams: ShipwreckFilters) => {
+		const newShipList = await clientAPI.getFilteredShipwrecks(filterParams);
 		setShipList(newShipList);
-		updateMapMarkers(newShipList);
 	}
 
 	const resetFilters = async () => {
@@ -61,7 +57,7 @@ export default function Home() {
 		updateMapMarkers(newShipList);
 	}
 
-	const updateMapMarkers = (listOfShips: shipwreck[]) => {
+	const updateMapMarkers = (listOfShips: Shipwreck[]) => {
 		const features = [];
 		for(let shipwreck of listOfShips) {
 			features.push({
@@ -137,6 +133,7 @@ export default function Home() {
 							</div>
 							<div className={[styles.filtersContainer, filtersOpen ? styles.filtersContainerOpened : ""].join(" ")} >
 								<FiltersComponent
+									formCallback={handleFilterChange}
 									resetButtonCallback={resetFilters}
 								></FiltersComponent>
 							</div>
@@ -144,7 +141,7 @@ export default function Home() {
 						{/* <div style={{borderTop: '2px solid #e7e7e7', margin: 'auto', width: '90%'}}></div> */}
 						{/* <div style={{borderTop: '2px solid #e7e7e7', display: filtersOpen ? 'block' : 'none', margin: 'auto', width: '30px'}}></div> */}
 						<ShipListComponent shipList={shipList}></ShipListComponent>
-						<div style={{ paddingTop: "5px", textAlign: "center" }}>
+						{/* <div style={{ paddingTop: "5px", textAlign: "center" }}>
 							<div>Dev Tools</div>
 							<button onClick={clientAPI.getShipwrecksByLocation}>
 								Get Shipwrecks By Location
@@ -152,7 +149,7 @@ export default function Home() {
 							<button onClick={() => filterBySinkYearRange(1885, 1897)}>
 								Get Shipwrecks By Sink Date
 							</button>
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className={styles.mobileInterface}>
@@ -166,6 +163,7 @@ export default function Home() {
 						searchOpen = {searchOpen}
 						settingsOpen = {settingsOpen}
 						shipList = {shipList}
+						handleFilterChange = {handleFilterChange}
 					></MobileInterface>
 				</div>
 				<div>

@@ -1,9 +1,9 @@
 import styles from '@/styles/ShipListComponent.module.scss'
-import { shipwreck } from '@/interfaces';
+import { Shipwreck } from '@/interfaces';
 
 interface Props {
     listHeight?: string;
-    shipList: shipwreck[];
+    shipList: Shipwreck[];
     children?: any;
 }
 

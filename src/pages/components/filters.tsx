@@ -1,41 +1,44 @@
-import { shipwreckFilters } from '@/interfaces';
+import { ShipwreckFilters } from '@/interfaces';
 import styles from '@/styles/FiltersComponent.module.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
     children?: any;
     labelFontSize?: string;
     inputFontSize?: string;
     resetButtonCallback?: Function;
-    height?:string;
+    height?: string;
+    formCallback: Function;
 }
 
 const FiltersComponent = (props: Props) => {
     const filtersActive = true; //more needed
-    const [form, setForm] = useState<shipwreckFilters>
+    const [form, setForm] = useState<ShipwreckFilters>
     ({
         hideOffscreen: true,
         wreckDepthMin: 0,
-        wreckDepthMax: 36201,
+        wreckDepthMax: 0,
         sinkYearMin: 0,
-        sinkYearMax: new Date().getFullYear(),
+        sinkYearMax: 0,
         weightMin: 0,
-        weightMax: 403342,
+        weightMax: 0,
         shipLengthMin: 0,
-        shipLengthMax: 1504,
-        shipIsMissing: false
+        shipLengthMax: 0,
+        listMissingShips: false,
+        sortBy: 'name'
     });
-    const handleChange = (event: any) => {
-        console.log("eventID: ", event.target.id)
-        console.log("eventValue: ", event.target.value)
+    const handleChange = async (event: any) => {
         setForm({
             ...form,
             [event.target.id]: event.target.value
-        })
+        });
     };
+    useEffect(() => {
+        props.formCallback(form);
+    }, [form])
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        console.log("--- submit ---")
+        console.warn("--- filter submit ---")
     }
 
     return (
@@ -44,10 +47,14 @@ const FiltersComponent = (props: Props) => {
         <form onSubmit={handleSubmit}>
             <div className='styles.filtersContainer'>
                 <div className={styles.filterItem}>
-                    <span className={styles.filterLabel}>Hide Offscreen Shipwrecks</span>
-                    <input type="checkbox" checked={form.hideOffscreen} value={form.hideOffscreen ? 1 : 0} onChange={handleChange} name="" id="hideOffscreen" />
+                    <span className={styles.filterLabel}>Sort By</span>
+                    {/* <input placeholder='name' type="reset" value={form.wreckDepthMin} onChange={handleChange} id='sortBy'/> */}
+                    <select name="" value={form.sortBy} onChange={handleChange} id="sortBy">
+                        <option value="name">name</option>
+                        <option value="depth">depth</option>
+                        <option value="yearSank">Year Sank</option>
+                    </select>
                 </div>
-                <hr />
                 <div className={styles.filterItem}>
                     <span className={styles.filterLabel}>Wreck Depth Min (ft)</span>
                     <input max={99999} inputMode="numeric" placeholder='any' type="number" value={form.wreckDepthMin} onChange={handleChange} id='wreckDepthMin'/>
@@ -81,13 +88,18 @@ const FiltersComponent = (props: Props) => {
                 </div>
                 <div className={styles.filterItem}>
                     <span className={styles.filterLabel}>Ship Length Max (ft)</span>
-                    <input max={9999} inputMode="numeric" placeholder='any' type="number" value={form.wreckDepthMin} onChange={handleChange} id='shipLengthMax'/>
+                    <input max={9999} inputMode="numeric" placeholder='any' type="number" value={form.shipLengthMax} onChange={handleChange} id='shipLengthMax'/>
                 </div>
                 <hr />
+                {/* <div className={styles.filterItem}>
+                    <span className={styles.filterLabel}>List Missing Ships</span>
+                    <input max={9999} inputMode="numeric" placeholder='any' type="checkbox" checked={form.listMissingShips} value={form.listMissingShips ? 1 : 0 } onChange={handleChange} id='shipIsMissing'/>
+                </div> */}
+                {/* <hr />
                 <div className={styles.filterItem}>
-                    <span className={styles.filterLabel}>Ship is Missing</span>
-                    <input max={9999} inputMode="numeric" placeholder='any' type="checkbox" checked={form.shipIsMissing} value={form.shipIsMissing ? 1 : 0 } onChange={handleChange} id='shipIsMissing'/>
-                </div>
+                    <span className={styles.filterLabel}>Hide Offscreen Shipwrecks</span>
+                    <input type="checkbox" checked={form.hideOffscreen} value={form.hideOffscreen ? 1 : 0} onChange={handleChange} name="" id="hideOffscreen" />
+                </div> */}
             </div>
         </form>
         <div className={styles.resetButton} 

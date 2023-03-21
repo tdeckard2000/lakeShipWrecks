@@ -3,7 +3,7 @@ import styles from "@/styles/MobileInterface.module.scss";
 import React, { useState } from "react";
 import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
-import { shipwreck } from "@/interfaces";
+import { Shipwreck } from "@/interfaces";
 
 interface Props {
     resetFilters: Function;
@@ -14,7 +14,8 @@ interface Props {
     filtersOpen: boolean;
     settingsOpen: boolean;
     searchOpen: boolean;
-    shipList: shipwreck[];
+    shipList: Shipwreck[];
+    handleFilterChange: Function;
 }
 
 const MobileInterface = (props: Props) => {
@@ -132,7 +133,7 @@ const MobileInterface = (props: Props) => {
                     <ShipListComponent listHeight="345px" shipList={props.shipList}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
-                    <FiltersComponent height="330px" resetButtonCallback={props.resetFilters}></FiltersComponent>
+                    <FiltersComponent formCallback={props.handleFilterChange} height="330px" resetButtonCallback={props.resetFilters}></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>
                     <div>Settings --</div>

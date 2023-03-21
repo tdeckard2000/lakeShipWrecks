@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb"
 
-export interface shipwreck {
+export interface Shipwreck {
     _id: ObjectId;
     name: string;
     location: string;
@@ -20,9 +20,10 @@ export interface shipwreck {
         height?: number;
         waterDepth?: number;
     }
+    isMissing?: boolean;
 };
 
-export interface shipwreckFilters {
+export interface ShipwreckFilters {
     hideOffscreen: boolean;
     wreckDepthMin: number;
     wreckDepthMax: number;
@@ -32,5 +33,6 @@ export interface shipwreckFilters {
     weightMax: number;
     shipLengthMin: number;
     shipLengthMax: number;
-    shipIsMissing: boolean;
+    listMissingShips: boolean;
+    sortBy: string;
 }
