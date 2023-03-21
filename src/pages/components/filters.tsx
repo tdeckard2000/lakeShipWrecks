@@ -17,8 +17,8 @@ const FiltersComponent = (props: Props) => {
         <div>{props.children}</div>
         <div className='styles.filtersContainer'>
             <div className={styles.filterItem}>
-                <span className={styles.filterLabel}>Location</span>
-                <span>Toggle</span>
+                <span className={styles.filterLabel}>Hide Offscreen Shipwrecks</span>
+                <input type="checkbox" defaultChecked={true} name="" id="" />
             </div>
             <hr />
             <div className={styles.filterItem}>
