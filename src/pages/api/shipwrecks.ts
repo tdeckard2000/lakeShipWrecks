@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../../lib/mongodb';
-import { shipwreck } from '@/types';
+import { shipwreck } from '@/interfaces';
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse) {
     let response: shipwreck[] = [];

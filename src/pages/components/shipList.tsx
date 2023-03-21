@@ -1,5 +1,5 @@
 import styles from '@/styles/ShipListComponent.module.scss'
-import { shipwreck } from '@/types';
+import { shipwreck } from '@/interfaces';
 
 interface Props {
     listHeight?: string;
