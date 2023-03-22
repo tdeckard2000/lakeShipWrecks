@@ -36,3 +36,9 @@ export interface ShipwreckFilters {
     listMissingShips: boolean;
     sortBy: string;
 }
+
+export interface MapProperties {
+    lng: number,
+    lat: number,
+    zoom: number
+}
