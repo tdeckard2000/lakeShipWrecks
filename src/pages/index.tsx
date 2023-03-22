@@ -80,7 +80,7 @@ export default function Home() {
 
 	const handleMarkerClick = (marker: any) => {
 		console.log("marker clicked")
-		popup.remove();
+		// popup.remove();
 		marker.features[0].layer.layout['icon-image'] = 'iconGreen'
 		console.log("moddedMarker: ", marker)
 	}
