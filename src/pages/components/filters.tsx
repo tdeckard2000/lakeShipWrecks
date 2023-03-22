@@ -136,4 +136,4 @@ const FiltersComponent = (props: Props) => {
     )
 }
 
-export default FiltersComponent
+export default FiltersComponent;

@@ -16,3 +16,5 @@ export const LoadingMessageComponent = () => {
     </div>
     )
 }
+
+export default LoadingMessageComponent;
