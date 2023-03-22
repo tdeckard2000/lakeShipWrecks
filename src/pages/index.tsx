@@ -49,7 +49,9 @@ export default function Home() {
 	const initializeMap = (shipList: Shipwreck[]) => {
 		if(!map.current || map.current === null) return;
 		//@ts-ignore
-		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)})
+		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
+		//@ts-ignore
+		map.current.loadImage('map-green-icon.png', (error, image) => {map.current.addImage('iconGreen', image)});
 		updateMapMarkers(shipList);
 		initializeMarkerPopup();
 	}
@@ -61,6 +63,7 @@ export default function Home() {
 			map.current.getCanvas().style.cursor = 'pointer';
 			const coordinates = e.features[0].geometry.coordinates.slice();
 			const description = e.features[0].properties.description;
+			console.log(e.features)
 			while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 				coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 			}
@@ -91,12 +94,22 @@ export default function Home() {
 	const updateMapMarkers = (listOfShips: Shipwreck[]) => {
 		const features = [];
 		for(let shipwreck of listOfShips) {
+			console.log(shipwreck._id)
 			features.push({
+				id: shipwreck._id,
 				type: 'Feature',
 				properties: {
 					description: 
-					`<strong>${shipwreck.name}</strong>
-					<p>Sank: ${shipwreck.dateSunk}</p>`,
+					`<div style="font-size: 14px; font-weight: 600; margin: 0 0 5px 0;">${shipwreck.name}</div>
+					<div style="width: 200px">
+						<img style="width: 200px" src="${shipwreck.linkImage !== undefined ? shipwreck.linkImage : ''}" alt="" />
+					</div>
+					<div>
+						<div><span style="font-weight: 600">Sank:</span> ${shipwreck.dateSunk?.toString().slice(4, 6)}/${shipwreck.dateSunk?.toString().slice(6, 8)}/${shipwreck.dateSunk?.toString().slice(0, 4)}</div>
+						<div><span style="font-weight: 600">Shallowest Depth:</span> ${shipwreck.stats.waterDepth !== undefined ? shipwreck.stats.waterDepth : '?'} ft</div>
+						<div><span style="font-weight: 600">Ship Length:</span> ${shipwreck.stats.length !== undefined ? shipwreck.stats.length : '?'} ft</div>
+					</div>
+					`,
 				},
 				geometry: {
 					type: 'Point',
@@ -128,7 +141,7 @@ export default function Home() {
 			type: 'symbol',
 			source: 'places',
 			layout: {
-				'icon-image': 'customIcon',
+				'icon-image': 'iconPurple',
 				'icon-size': 0.2,
 				'icon-allow-overlap': true
 			}
