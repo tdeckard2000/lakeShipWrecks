@@ -9,7 +9,7 @@ import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
-import { initializeMap, updateMapMarkers } from "./components/map";
+import { initializeMap, updateMapMarkers } from "../map";
 import { LoadingMessageComponent } from "./components/loadingMessage";
 
 const inter = Inter({ subsets: ["latin"] });

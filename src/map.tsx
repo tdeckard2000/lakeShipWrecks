@@ -130,5 +130,3 @@ export const updateMapMarkers = (map: MutableRefObject<null>, listOfShips: Shipw
         }
     })
 };
-
-export default initializeMap;
