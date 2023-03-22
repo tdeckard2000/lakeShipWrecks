@@ -24,6 +24,10 @@ export default function Home() {
 	const [lat, setLat] = useState(44.5);
 	const [zoom, setZoom] = useState(5.5);
 	const [shipList, setShipList] = useState<Shipwreck[]>([]);
+	const popup = new mapboxgl.Popup({
+		closeButton: false,
+		closeOnClick: false
+	})
 
 	useEffect(() => {
 		if (map.current) return;
@@ -36,13 +40,39 @@ export default function Home() {
 		initializePage();
 	});
 
-	const initializePage = async () => {
-		if(!map.current || map.current === null) return;
-		//@ts-ignore
-		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)});
+	const initializePage = async () => {;
 		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
-		updateMapMarkers(newShipList);
+		initializeMap(newShipList);
+	}
+
+	const initializeMap = (shipList: Shipwreck[]) => {
+		if(!map.current || map.current === null) return;
+		//@ts-ignore
+		map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('customIcon', image)})
+		updateMapMarkers(shipList);
+		initializeMarkerPopup();
+	}
+
+	const initializeMarkerPopup = () => {
+		//@ts-ignore
+		map.current.on('mouseenter', 'places', (e) => {
+			//@ts-ignore
+			map.current.getCanvas().style.cursor = 'pointer';
+			const coordinates = e.features[0].geometry.coordinates.slice();
+			const description = e.features[0].properties.description;
+			while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+				coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+			}
+			//@ts-ignore
+			popup.setLngLat(coordinates).setHTML(description).addTo(map.current);
+		})
+		//@ts-ignore
+		map.current.on('mouseleave', 'places', () => {
+			//@ts-ignore
+			map.current.getCanvas().style.cursor = '';
+			popup.remove();
+		});
 	}
 
 	const handleFilterChange = async (filterParams: ShipwreckFilters) => {
