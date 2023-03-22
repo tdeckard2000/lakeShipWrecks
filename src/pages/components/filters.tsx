@@ -32,11 +32,11 @@ const FiltersComponent = (props: Props) => {
     });
     
     const handleChange = async (event: any) => {
-        props.setFiltersActive(true);
         setForm({
             ...form,
             [event.target.id]: event.target.value
         });
+        props.setFiltersActive(true);
     };
     
     useEffect(() => {
@@ -49,6 +49,7 @@ const FiltersComponent = (props: Props) => {
     }
 
     useEffect(() => {
+        if(filtersActive) return;
         setForm(
             {
                 hideOffscreen: true,
