@@ -59,11 +59,12 @@ export default function Home() {
 	const initializeMarkerPopup = () => {
 		//@ts-ignore
 		map.current.on('mouseenter', 'places', (e) => {
+			popup.remove();
 			//@ts-ignore
 			map.current.getCanvas().style.cursor = 'pointer';
+			console.log(e.features)
 			const coordinates = e.features[0].geometry.coordinates.slice();
 			const description = e.features[0].properties.description;
-			console.log(e.features)
 			while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
 				coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 			}
@@ -102,7 +103,7 @@ export default function Home() {
 					description: 
 					`<div style="font-size: 14px; font-weight: 600; margin: 0 0 5px 0;">${shipwreck.name}</div>
 					<div style="width: 200px">
-						<img style="width: 200px" src="${shipwreck.linkImage !== undefined ? shipwreck.linkImage : ''}" alt="" />
+						<img style="border-radius: 6px;	width: 200px;" src="${shipwreck.linkImage !== undefined ? shipwreck.linkImage : ''}" alt="" />
 					</div>
 					<div>
 						<div><span style="font-weight: 600">Sank:</span> ${shipwreck.dateSunk?.toString().slice(4, 6)}/${shipwreck.dateSunk?.toString().slice(6, 8)}/${shipwreck.dateSunk?.toString().slice(0, 4)}</div>
