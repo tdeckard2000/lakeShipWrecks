@@ -24,7 +24,7 @@ export default function Home() {
 	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const [shipList, setShipList] = useState<Shipwreck[]>([]);
 	const [mapProperties, setMapProperties] = useState<MapProperties>({lng: -85.15, lat: 44.5, zoom: 5.5})
-	const [shipSelectedId, setShipSelectedId] = useState<number | null>(null);
+	const [shipSelectedId, setShipSelectedId] = useState<number | undefined>(undefined);
 
 	useEffect(() => {
 		initializePage();
