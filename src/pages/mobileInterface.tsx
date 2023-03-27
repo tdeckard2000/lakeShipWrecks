@@ -121,7 +121,7 @@ const MobileInterface = (props: Props) => {
         <div className={ props.shipSelectedId === undefined ? styles.shipInfoModalHidden : styles.shipInfoModalVisible}>
             <ModalComponent
                 borderRadius="0 0 12px 12px"
-                height="150px"
+                height="180px"
                 top="0px"
                 left="0"
                 width="100vw"
@@ -133,8 +133,14 @@ const MobileInterface = (props: Props) => {
                     <img src={props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].linkImage : ''} alt="" />
                 </div>
                 <div className={styles.infoContainer}>
-                    <div>Ship ID <span style={{color: 'royalblue'}}>{props.shipSelectedId}</span></div>
-                    <div>Coordinates <span>{props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude?.toString() + " " + props.shipList[props.shipSelectedId].coordinates.longitude?.toString(): ''}</span></div>
+                    <div><span className={styles.statLabels}>Length: </span>{props.shipSelectedId != undefined && props.shipList[props.shipSelectedId].stats.length != undefined ? props.shipList[props.shipSelectedId].stats.length?.toString() : '?'} ft</div>
+                    <div><span className={styles.statLabels}>Beam: </span>{props.shipSelectedId != undefined && props.shipList[props.shipSelectedId].stats.beam != undefined ? props.shipList[props.shipSelectedId].stats.beam?.toString() : '?'} ft</div>
+                    <div><span className={styles.statLabels}>Weight: </span>{props.shipSelectedId != undefined && props.shipList[props.shipSelectedId].stats.grossTons != undefined ? props.shipList[props.shipSelectedId].stats.grossTons?.toString() : '?'} gt</div>
+                    <div><span className={styles.statLabels}>Min Depth: </span>{props.shipSelectedId != undefined && props.shipList[props.shipSelectedId].stats.waterDepth != undefined ? props.shipList[props.shipSelectedId].stats.waterDepth?.toString() : '?'} ft</div>
+                    <div><span className={styles.statLabels}>Coords: </span><span>{props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude?.toString().slice(0, 6) + " " + props.shipList[props.shipSelectedId].coordinates.longitude?.toString().slice(0, 7): ''}</span></div>
+                    <div><span className={styles.statLabels}>ID: </span>{props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId]._id.toString().slice(18) : ''}</div>
+                    <a target="_blank" href={props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].linkWiki : ''}>Wikipedia</a>|
+                    <a target="_blank" href={`https://maps.google.com/?q=${props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude: ''},${props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.longitude : ''}`}>Google Maps</a>
                 </div>
             </div>
             </ModalComponent>

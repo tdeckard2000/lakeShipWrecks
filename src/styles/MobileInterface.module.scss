@@ -39,23 +39,38 @@
 .infoModalFlexbox {
 	display: flex;
 	flex-direction: row;
-	font-size: 12px;
+	font-size: 11px;
+	justify-content: space-between;
+	margin: 8px 5px;
 
 	.imageContainer {
 		color: red;
 		height: 100px;
 		overflow: hidden;
-		width: 150px;
+		max-width: 155px;
 		
 		img {
-			border-radius: 8px;
+			border-radius: 6px;
 			max-height: 100%;
 			max-width: 100%;
 		}
 	}
 
 	.infoContainer {
-		margin: 10px;
+		margin: 0 5px;
+		
+		div {
+			width: 165px;
+		}
+
+		a {
+			margin: 10px 5px 0 5px;
+			text-decoration: none;
+		}
+
+		.statLabels {
+			font-weight: 600;
+		}
 	}
 }
 
@@ -117,13 +132,13 @@
 
 .shipInfoModalHidden {
 	position: absolute;
-	top: -150px;
+	top: -190px;
 	transition: top .3s ease;
 }
 
 .shipInfoModalVisible {
 	position: absolute;
-	top: 0px;
+	top: -8px;
 	transition: top .3s ease;
 }
 
