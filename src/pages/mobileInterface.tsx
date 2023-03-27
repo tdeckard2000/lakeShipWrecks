@@ -6,6 +6,8 @@ import ShipListComponent from "./components/shipList";
 import { Shipwreck } from "@/interfaces";
 
 interface Props {
+    setShipSelectedId: Function;
+    shipSelectedId: number | null;
     resetFilters: Function;
     setFiltersOpen: Function;
     setSearchOpen: Function;
@@ -115,6 +117,20 @@ const MobileInterface = (props: Props) => {
                     <div>Settings</div>
                 </div>
             </div>
+        </div>
+        <div className={ props.shipSelectedId === null ? styles.shipInfoModalHidden : styles.shipInfoModalVisible}>
+            <ModalComponent
+                borderRadius="0 0 12px 12px"
+                height="150px"
+                top="0px"
+                left="0"
+                width="100vw"
+                closeButtonCallback={() => props.setShipSelectedId(null)}
+            >
+                <div>Ship ID <span style={{color: 'royalblue'}}>{props.shipSelectedId}</span></div>
+                <div>Ship Name <span>{props.shipSelectedId !== null? props.shipList[props.shipSelectedId].name : ''}</span></div>
+                <div>Coordinates <span>{props.shipSelectedId !== null? props.shipList[props.shipSelectedId].coordinates.latitude?.toString() + " " + props.shipList[props.shipSelectedId].coordinates.longitude?.toString(): ''}</span></div>
+            </ModalComponent>
         </div>
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
             <ModalComponent

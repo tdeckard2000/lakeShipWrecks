@@ -1,19 +1,23 @@
 // @ts-ignore
 import mapboxgl from "!mapbox-gl";
-import { MapProperties, Shipwreck } from "@/interfaces";
-import { MutableRefObject, useState } from "react";
+import { MapFeature, MapSelection, MapProperties, Shipwreck } from "@/interfaces";
+import { MutableRefObject } from "react";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 
 // const [lng, setLng] = useState(-85.15);
 // const [lat, setLat] = useState(44.5);
 // const [zoom, setZoom] = useState(5.5);
 
+interface Props {
+    markerClickCallback(mapFeature: MapFeature): Function;
+}
+
 const popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: false
 })
 
-export const initializeMap = async (map: MutableRefObject<null>, mapProperties:MapProperties, mapContainer: MutableRefObject<null>, shipList: Shipwreck[]) => {
+export const initializeMap = async (map: MutableRefObject<null>, mapProperties:MapProperties, mapContainer: MutableRefObject<null>, shipList: Shipwreck[], markerClickCallback: Function) => {
     if (map.current) return;
     map.current = await new mapboxgl.Map({
         container: mapContainer.current,
@@ -23,26 +27,24 @@ export const initializeMap = async (map: MutableRefObject<null>, mapProperties:M
     });
     //@ts-ignore
     map.current.on('load', () => {
-        console.log("MAP LOAD")
         //@ts-ignore
         map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
         //@ts-ignore
         map.current.loadImage('map-green-icon.png', (error, image) => {map.current.addImage('iconGreen', image)});
         updateMapMarkers(map, shipList);
-        defineMarkerInteractions(map);
+        defineMarkerInteractions(map, markerClickCallback);
         return;
     })
 }
 
-const defineMarkerInteractions = (map: MutableRefObject<null>) => {
+const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallback: Function) => {
     //@ts-ignore
-    map.current.on('mouseenter', 'places', (e) => {
-        e.features[0].layer.layout['icon-image'] = 'iconGreen'
-        handleMarkerHover(map, e);
+    map.current.on('mouseenter', 'places', (MapSelection: MapSelection) => {
+        handleMarkerHover(map, MapSelection);
     });
     //@ts-ignore
-    map.current.on('click', 'places', (e) => {
-        handleMarkerClick(e);
+    map.current.on('click', 'places', (clickEvent: any) => {
+        handleMarkerClick(map, clickEvent, markerClickCallback);
     })
     //@ts-ignore
     map.current.on('mouseleave', 'places', () => {
@@ -52,21 +54,20 @@ const defineMarkerInteractions = (map: MutableRefObject<null>) => {
     });
 }
 
-const handleMarkerClick = (marker: any) => {
-    console.log("marker clicked")
-    // popup.remove();
-    marker.features[0].layer.layout['icon-image'] = 'iconGreen'
-    console.log("moddedMarker: ", marker)
+const handleMarkerClick = (map: MutableRefObject<null>, clickEvent: any, markerClickCallback: Function) => {
+    if(!map.current) return
+    //@ts-ignore
+    const mapFeature:MapFeature = map.current.queryRenderedFeatures(clickEvent.point, { layers: ['places'] })[0];
+    markerClickCallback(mapFeature);
 }
 
-const handleMarkerHover = (map: MutableRefObject<null>, marker: any) => {
+const handleMarkerHover = (map: MutableRefObject<null>, mapSelection: MapSelection) => {
     //@ts-ignore
     map.current.getCanvas().style.cursor = 'pointer';
-    console.log(marker)
-    const coordinates = marker.features[0].geometry.coordinates.slice();
-    const description = marker.features[0].properties.description;
-    while (Math.abs(marker.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += marker.lngLat.lng > coordinates[0] ? 360 : -360;
+    const coordinates = mapSelection.features[0].geometry.coordinates.slice();
+    const description = mapSelection.features[0].properties.description;
+    while (Math.abs(mapSelection.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += mapSelection.lngLat.lng > coordinates[0] ? 360 : -360;
     }
     //@ts-ignore
     popup.setLngLat(coordinates).setHTML(description).addTo(map.current);

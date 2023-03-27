@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { MapProperties, Shipwreck, ShipwreckFilters } from "@/interfaces";
+import { MapFeature, MapProperties, Shipwreck, ShipwreckFilters } from "@/interfaces";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
@@ -15,7 +15,6 @@ import { LoadingMessageComponent } from "./components/loadingMessage";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-	// mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 	const mapContainer = useRef(null);
 	const map = useRef(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -25,16 +24,16 @@ export default function Home() {
 	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const [shipList, setShipList] = useState<Shipwreck[]>([]);
 	const [mapProperties, setMapProperties] = useState<MapProperties>({lng: -85.15, lat: 44.5, zoom: 5.5})
+	const [shipSelectedId, setShipSelectedId] = useState<number | null>(null);
 
 	useEffect(() => {
-		console.log("init page")
 		initializePage();
 	}, []);
 
 	const initializePage = async () => {;
 		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
-		initializeMap(map, mapProperties, mapContainer, newShipList).then(() => {
+		initializeMap(map, mapProperties, mapContainer, newShipList, handleMapMarkerClick).then(() => {
 			//@ts-ignore
 			map.current.on("load", () => {
 				setIsLoading(false);
@@ -42,9 +41,12 @@ export default function Home() {
 		})
 	}
 
+	const handleMapMarkerClick = (mapFeature: MapFeature) => {
+		setShipSelectedId(mapFeature.id);
+	}
+
 	const handleFilterChange = async (filterParams: ShipwreckFilters) => {
 		if(!map.current) return
-		console.log("filter change triggered")
 		const newShipList = await clientAPI.getFilteredShipwrecks(filterParams);
 		setShipList(newShipList);
 		updateMapMarkers(map, newShipList);
@@ -101,7 +103,9 @@ export default function Home() {
 					</div>
 				</div>
 				<div className={styles.mobileInterface}>
-					<MobileInterface 
+					<MobileInterface
+						shipSelectedId={shipSelectedId}
+						setShipSelectedId={setShipSelectedId}
 						setFiltersOpen={setFiltersOpen}
 						setSearchOpen={setSearchOpen}
 						setSettingsOpen={setSettingsOpen}
@@ -122,15 +126,3 @@ export default function Home() {
 		</>
 	);
 }
-
-
-// function updateMapMarkers(newShipList: any) {
-// 	throw new Error("Function not implemented.");
-// }
-// function updateMapMarkers(newShipList: any) {
-// 	throw new Error("Function not implemented.");
-// }
-// function updateMapMarkers(newShipList: any) {
-// 	throw new Error("Function not implemented.");
-// }
-

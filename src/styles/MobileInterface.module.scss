@@ -92,6 +92,18 @@
 	z-index: 0;
 }
 
+.shipInfoModalHidden {
+	position: absolute;
+	top: -150px;
+	transition: top .3s ease;
+}
+
+.shipInfoModalVisible {
+	position: absolute;
+	top: 0px;
+	transition: top .3s ease;
+}
+
 .title {
 	display: block;
 	font-weight: 200;
