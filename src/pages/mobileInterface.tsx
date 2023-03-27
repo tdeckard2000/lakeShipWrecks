@@ -118,14 +118,14 @@ const MobileInterface = (props: Props) => {
                 </div>
             </div>
         </div>
-        <div className={ props.shipSelectedId === null ? styles.shipInfoModalHidden : styles.shipInfoModalVisible}>
+        <div className={ props.shipSelectedId === undefined ? styles.shipInfoModalHidden : styles.shipInfoModalVisible}>
             <ModalComponent
                 borderRadius="0 0 12px 12px"
                 height="150px"
                 top="0px"
                 left="0"
                 width="100vw"
-                closeButtonCallback={() => props.setShipSelectedId(null)}
+                closeButtonCallback={() => props.setShipSelectedId(undefined)}
             >
                 <div>Ship ID <span style={{color: 'royalblue'}}>{props.shipSelectedId}</span></div>
                 <div>Ship Name <span>{props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].name : ''}</span></div>
