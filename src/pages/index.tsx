@@ -23,14 +23,19 @@ export default function Home() {
 	const [searchOpen, setSearchOpen] = useState<boolean>(false);
 	const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 	const [shipList, setShipList] = useState<Shipwreck[]>([]);
-	const [mapProperties, setMapProperties] = useState<MapProperties>({lng: -85.15, lat: 44.5, zoom: 5.5})
+	const [isMobileDevice, setIsMobileDevice] = useState<boolean>(false);
 	const [shipSelectedId, setShipSelectedId] = useState<number | undefined>(undefined);
 
 	useEffect(() => {
 		initializePage();
 	}, []);
 
-	const initializePage = async () => {;
+	const initializePage = async () => {
+		const mapProperties = {lng: -85.15, lat: 44.5, zoom: 5.5, hidePopups: isMobileDevice};
+		if(window.innerWidth <= 550) {
+			setIsMobileDevice(true);
+			mapProperties.hidePopups = true;
+		};
 		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
 		initializeMap(map, mapProperties, mapContainer, newShipList, handleMapMarkerClick).then(() => {
@@ -74,7 +79,7 @@ export default function Home() {
 					<LoadingMessageComponent></LoadingMessageComponent>
 				</div>
 				<div className={styles.navigationPanel}>
-					<div className={styles.titleHeader}>Shipwrecks<span style={{fontSize: '12px'}}>.pro</span></div>
+					<div className={styles.titleHeader}>Shipwrecks <span style={{fontSize: '12px'}}>.pro</span></div>
 					<div className={styles.navigationBody}>
 						<div className={[styles.toolsContainer, filtersOpen ? styles.toolsContainerOpened : ""].join(" ")}>
 							<div className={styles.toolsButtons}>

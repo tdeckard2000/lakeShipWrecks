@@ -4,14 +4,6 @@ import { MapFeature, MapSelection, MapProperties, Shipwreck } from "@/interfaces
 import { MutableRefObject } from "react";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 
-// const [lng, setLng] = useState(-85.15);
-// const [lat, setLat] = useState(44.5);
-// const [zoom, setZoom] = useState(5.5);
-
-interface Props {
-    markerClickCallback(mapFeature: MapFeature): Function;
-}
-
 const popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: false
@@ -32,15 +24,15 @@ export const initializeMap = async (map: MutableRefObject<null>, mapProperties:M
         //@ts-ignore
         map.current.loadImage('map-green-icon.png', (error, image) => {map.current.addImage('iconGreen', image)});
         updateMapMarkers(map, shipList);
-        defineMarkerInteractions(map, markerClickCallback);
+        defineMarkerInteractions(map, markerClickCallback, mapProperties);
         return;
     })
 }
 
-const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallback: Function) => {
+const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallback: Function, mapProperties: MapProperties) => {
     //@ts-ignore
     map.current.on('mouseenter', 'places', (MapSelection: MapSelection) => {
-        handleMarkerHover(map, MapSelection);
+        handleMarkerHover(map, MapSelection, mapProperties);
     });
     //@ts-ignore
     map.current.on('click', 'places', (clickEvent: any) => {
@@ -61,7 +53,9 @@ const handleMarkerClick = (map: MutableRefObject<null>, clickEvent: any, markerC
     markerClickCallback(mapFeature);
 }
 
-const handleMarkerHover = (map: MutableRefObject<null>, mapSelection: MapSelection) => {
+const handleMarkerHover = (map: MutableRefObject<null>, mapSelection: MapSelection, mapProperties: MapProperties) => {
+    //@ts-ignore
+    if(mapProperties.hidePopups || !map.current) return
     //@ts-ignore
     map.current.getCanvas().style.cursor = 'pointer';
     const coordinates = mapSelection.features[0].geometry.coordinates.slice();

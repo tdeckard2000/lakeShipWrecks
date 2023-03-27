@@ -38,9 +38,10 @@ export interface ShipwreckFilters {
 }
 
 export interface MapProperties {
-    lng: number,
-    lat: number,
-    zoom: number
+    lng: number;
+    lat: number;
+    zoom: number;
+    hidePopups: boolean;
 }
 
 export interface MapFeature {

@@ -143,6 +143,9 @@ const MobileInterface = (props: Props) => {
                     <a target="_blank" href={`https://maps.google.com/?q=${props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude: ''},${props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.longitude : ''}`}>Google Maps</a>
                 </div>
             </div>
+            {/* <div className={styles.expandedShipInfoVisible}>
+                <div>More Info Here</div>
+            </div> */}
             </ModalComponent>
         </div>
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
