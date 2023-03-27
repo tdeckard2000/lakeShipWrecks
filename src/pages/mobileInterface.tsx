@@ -126,10 +126,17 @@ const MobileInterface = (props: Props) => {
                 left="0"
                 width="100vw"
                 closeButtonCallback={() => props.setShipSelectedId(undefined)}
+                title={props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].name : ''}
             >
-                <div>Ship ID <span style={{color: 'royalblue'}}>{props.shipSelectedId}</span></div>
-                <div>Ship Name <span>{props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].name : ''}</span></div>
-                <div>Coordinates <span>{props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude?.toString() + " " + props.shipList[props.shipSelectedId].coordinates.longitude?.toString(): ''}</span></div>
+            <div className={styles.infoModalFlexbox}>
+                <div className={styles.imageContainer}>
+                    <img src={props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].linkImage : ''} alt="" />
+                </div>
+                <div className={styles.infoContainer}>
+                    <div>Ship ID <span style={{color: 'royalblue'}}>{props.shipSelectedId}</span></div>
+                    <div>Coordinates <span>{props.shipSelectedId !== undefined? props.shipList[props.shipSelectedId].coordinates.latitude?.toString() + " " + props.shipList[props.shipSelectedId].coordinates.longitude?.toString(): ''}</span></div>
+                </div>
+            </div>
             </ModalComponent>
         </div>
         <div className={bottomModalOpen ? styles.bottomModalVisible : styles.bottomModalHidden}>
@@ -147,7 +154,7 @@ const MobileInterface = (props: Props) => {
                     <div>Search --</div>
                 </div>
                 <div style={{display: listOpen ? 'block' : 'none'}} className={styles.listContainer}>
-                    <ShipListComponent listHeight="345px" shipList={props.shipList}></ShipListComponent>
+                    <ShipListComponent listHeight="345px" shipList={props.shipList} setShipSelectedId={props.setShipSelectedId}></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
                     <FiltersComponent 
@@ -156,6 +163,7 @@ const MobileInterface = (props: Props) => {
                     resetButtonCallback={props.resetFilters}
                     setFiltersActive={props.setFiltersActive}
                     filtersActive={props.filtersActive}
+                    setShipSelectedId={props.setShipSelectedId}
                     ></FiltersComponent>
                 </div>
                 <div style={{display: props.settingsOpen ? 'block' : 'none'}} className={styles.settingsContainer}>

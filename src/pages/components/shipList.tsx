@@ -2,8 +2,9 @@ import styles from '@/styles/ShipListComponent.module.scss'
 import { Shipwreck } from '@/interfaces';
 
 interface Props {
-    listHeight?: string;
     shipList: Shipwreck[];
+    setShipSelectedId: Function;
+    listHeight?: string;
     children?: any;
 }
 
@@ -11,7 +12,7 @@ const ShipListComponent = (props: Props) => {
     return (
     <div className={styles.listContainer} style={{height: props.listHeight}}>
         {props.shipList ? props.shipList.map((ship, index) => (
-            <div key={index} className={styles.listItem}>
+            <div key={index} className={styles.listItem} onClick={()=>{props.setShipSelectedId(index)}}>
                 <div className={styles.shipName}>{ship.name}</div>
                 <div className={styles.statsContainer}>
                     <div className={styles.shipStat}>

@@ -36,6 +36,29 @@
 	margin-top: 10px;
 }
 
+.infoModalFlexbox {
+	display: flex;
+	flex-direction: row;
+	font-size: 12px;
+
+	.imageContainer {
+		color: red;
+		height: 100px;
+		overflow: hidden;
+		width: 150px;
+		
+		img {
+			border-radius: 8px;
+			max-height: 100%;
+			max-width: 100%;
+		}
+	}
+
+	.infoContainer {
+		margin: 10px;
+	}
+}
+
 .listContainer {
 	margin-top: 10px;
 }

@@ -11,13 +11,12 @@ interface Props {
     formCallback: Function;
     setFiltersActive: Function;
     filtersActive: boolean;
+    setShipSelectedId: Function;
 }
 
 const FiltersComponent = (props: Props) => {
     const filtersActive = true; //more needed
-    
-    const [form, setForm] = useState<ShipwreckFilters>
-    ({
+    const initialFormState = {
         hideOffscreen: true,
         wreckDepthMin: 0,
         wreckDepthMax: 0,
@@ -29,13 +28,15 @@ const FiltersComponent = (props: Props) => {
         shipLengthMax: 0,
         listMissingShips: false,
         sortBy: 'name'
-    });
+    };
+    const [form, setForm] = useState<ShipwreckFilters>(initialFormState);
     
     const handleChange = async (event: any) => {
         setForm({
             ...form,
             [event.target.id]: event.target.value
         });
+        props.setShipSelectedId(undefined);
         props.setFiltersActive(true);
     };
     
@@ -48,23 +49,23 @@ const FiltersComponent = (props: Props) => {
         console.warn("--- filter submit ---")
     }
 
-    useEffect(() => {
-        if(filtersActive) return;
-        setForm(
-            {
-                hideOffscreen: true,
-                wreckDepthMin: 0,
-                wreckDepthMax: 0,
-                sinkYearMin: 0,
-                sinkYearMax: 0,
-                weightMin: 0,
-                weightMax: 0,
-                shipLengthMin: 0,
-                shipLengthMax: 0,
-                listMissingShips: false,
-                sortBy: 'name'
-            })
-    }, [props.filtersActive])
+    // useEffect(() => {
+    //     if(filtersActive) return;
+    //     setForm(
+    //         {
+    //             hideOffscreen: true,
+    //             wreckDepthMin: 0,
+    //             wreckDepthMax: 0,
+    //             sinkYearMin: 0,
+    //             sinkYearMax: 0,
+    //             weightMin: 0,
+    //             weightMax: 0,
+    //             shipLengthMin: 0,
+    //             shipLengthMax: 0,
+    //             listMissingShips: false,
+    //             sortBy: 'name'
+    //         })
+    // }, [props.filtersActive])
 
     return (
     <div className={styles.filterBody} style={{height: props.height}}>
@@ -129,7 +130,7 @@ const FiltersComponent = (props: Props) => {
         </form>
         <div className={styles.resetButton} 
             style={{pointerEvents: filtersActive ? 'auto' : 'none', opacity: filtersActive ? '1' : '.5'}} 
-            onClick={() => props.resetButtonCallback ? props.resetButtonCallback() : ''}>
+            onClick={() => {props.resetButtonCallback ? props.resetButtonCallback() : ''; setForm(initialFormState)}}>
             <img src="reset-icon.svg" alt="" />
         </div>
     </div>

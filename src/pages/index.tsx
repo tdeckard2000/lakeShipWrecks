@@ -55,6 +55,7 @@ export default function Home() {
 	const resetFilters = async () => {
 		if(!map.current) return
 		setFiltersActive(false);
+		setShipSelectedId(undefined);
 		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
 		updateMapMarkers(map, newShipList);
@@ -96,10 +97,11 @@ export default function Home() {
 									resetButtonCallback={resetFilters}
 									setFiltersActive={setFiltersActive}
 									filtersActive={filtersActive}
+									setShipSelectedId={setShipSelectedId}
 								></FiltersComponent>
 							</div>
 						</div>
-						<ShipListComponent shipList={shipList} listHeight="calc(100% - 60px)"></ShipListComponent>
+						<ShipListComponent shipList={shipList} listHeight="calc(100% - 60px)" setShipSelectedId={setShipSelectedId}></ShipListComponent>
 					</div>
 				</div>
 				<div className={styles.mobileInterface}>
