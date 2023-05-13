@@ -47,6 +47,14 @@
             }
         }
 
+        &.highlighted {
+            background: linear-gradient(90deg, #ffffff 0%, #9adeff 50%, white 100%);
+
+            &:hover {
+                background: linear-gradient(90deg, #ffffff 0%, #9adeff 50%, white 100%);
+            }
+        }
+
 
         &:hover {
             background: linear-gradient(90deg, #ffffff 0%, #f1f1f1 50%, white 100%)

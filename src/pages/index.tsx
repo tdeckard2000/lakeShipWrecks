@@ -106,7 +106,13 @@ export default function Home() {
 								></FiltersComponent>
 							</div>
 						</div>
-						<ShipListComponent shipList={shipList} listHeight="calc(100% - 60px)" setShipSelectedId={setShipSelectedId}></ShipListComponent>
+						<ShipListComponent 
+							shipList={shipList} 
+							listHeight="calc(100% - 60px)" 
+							setShipSelectedId={setShipSelectedId}
+							shipSelectedId={shipSelectedId}
+							setFiltersOpen={setFiltersOpen}
+						></ShipListComponent>
 					</div>
 				</div>
 				<div className={styles.mobileInterface}>

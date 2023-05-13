@@ -163,7 +163,13 @@ const MobileInterface = (props: Props) => {
                     <div>Search --</div>
                 </div>
                 <div style={{display: listOpen ? 'block' : 'none'}} className={styles.listContainer}>
-                    <ShipListComponent listHeight="345px" shipList={props.shipList} setShipSelectedId={props.setShipSelectedId}></ShipListComponent>
+                    <ShipListComponent 
+                        listHeight="345px" 
+                        shipList={props.shipList} 
+                        setShipSelectedId={props.setShipSelectedId}
+                        shipSelectedId={props.shipSelectedId}
+                        setFiltersOpen={props.setFiltersOpen}
+                        ></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
                     <FiltersComponent 
