@@ -1,6 +1,7 @@
 import styles from '@/styles/ShipListComponent.module.scss'
 import { Shipwreck } from '@/interfaces';
-import { useEffect } from 'react';
+import { MutableRefObject, useEffect } from 'react';
+import { removeHighlightedMapMarker, setHighlightedMapMarker } from '@/map';
 
 interface Props {
     shipList: Shipwreck[];
@@ -9,6 +10,7 @@ interface Props {
     children?: any;
     shipSelectedId: number | undefined;
     setFiltersOpen: Function;
+    map: any
 }
 
 
@@ -23,16 +25,20 @@ const ShipListComponent = (props: Props) => {
             } else {
                 props.setFiltersOpen(false);
                 listItem?.scrollIntoView({behavior: 'smooth'});
-                console.log("new ", listItem)
             }
         }
     }, [props.shipSelectedId])
     
-    const listItemClicked = (props: Props, index: number) => {
+    const listItemClicked = (index: number) => {
+        //if already selected, deselect
         if(index === props.shipSelectedId) {
             props.setShipSelectedId(undefined);
+            removeHighlightedMapMarker(props.map);
         } else {
+            //Otherwise, highlight
+            const ship = props.shipList[index];
             props.setShipSelectedId(index);
+            setHighlightedMapMarker(props.map, ship?.coordinates.longitude, ship?.coordinates.latitude);
         }
     };
 
@@ -49,7 +55,7 @@ const ShipListComponent = (props: Props) => {
     return (
     <div className={styles.listContainer} style={{height: props.listHeight}}>
         {props.shipList ? props.shipList.map((ship, index) => (
-            <div id={`item${index}`} key={index} className={[styles.listItem, index === props.shipSelectedId ? styles.highlighted : ''].join(' ')} onClick={() => listItemClicked(props, index)}>
+            <div id={`item${index}`} key={index} className={[styles.listItem, index === props.shipSelectedId ? styles.highlighted : ''].join(' ')} onClick={() => listItemClicked(index)}>
                 <div className={styles.shipName}>{ship.name}</div>
                 <div className={styles.statsContainer}>
                     <div className={styles.shipStat}>

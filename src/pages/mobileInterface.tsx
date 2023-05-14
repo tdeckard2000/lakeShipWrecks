@@ -19,6 +19,7 @@ interface Props {
     shipList: Shipwreck[];
     handleFilterChange: Function;
     setFiltersActive: Function;
+    map: any;
 }
 
 const MobileInterface = (props: Props) => {
@@ -169,6 +170,7 @@ const MobileInterface = (props: Props) => {
                         setShipSelectedId={props.setShipSelectedId}
                         shipSelectedId={props.shipSelectedId}
                         setFiltersOpen={props.setFiltersOpen}
+                        map={props.map}
                         ></ShipListComponent>
                 </div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>

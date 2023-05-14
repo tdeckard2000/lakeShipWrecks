@@ -20,23 +20,23 @@ export const initializeMap = async (map: MutableRefObject<null>, mapProperties:M
     //@ts-ignore
     map.current.on('load', () => {
         //@ts-ignore
-        map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
+        map.current.loadImage('map-prettyPurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
         //@ts-ignore
-        map.current.loadImage('map-green-icon.png', (error, image) => {map.current.addImage('iconGreen', image)});
+        map.current.loadImage('map-purple-icon.png', (error, image) => {map.current.addImage('iconHighlight', image)});
         updateMapMarkers(map, shipList);
-        defineMarkerInteractions(map, markerClickCallback, mapProperties);
+        defineMarkerInteractions(map, markerClickCallback, mapProperties, shipList);
         return;
     })
 }
 
-const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallback: Function, mapProperties: MapProperties) => {
+const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallback: Function, mapProperties: MapProperties, shipList: Shipwreck[]) => {
     //@ts-ignore
     map.current.on('mouseenter', 'places', (MapSelection: MapSelection) => {
         handleMarkerHover(map, MapSelection, mapProperties);
     });
     //@ts-ignore
     map.current.on('click', 'places', (clickEvent: any) => {
-        handleMarkerClick(map, clickEvent, markerClickCallback);
+        handleMarkerClick(map, clickEvent, markerClickCallback, shipList);
     })
     //@ts-ignore
     map.current.on('mouseleave', 'places', () => {
@@ -46,11 +46,11 @@ const defineMarkerInteractions = (map: MutableRefObject<null>, markerClickCallba
     });
 }
 
-const handleMarkerClick = (map: MutableRefObject<null>, clickEvent: any, markerClickCallback: Function) => {
+const handleMarkerClick = (map: MutableRefObject<null>, clickEvent: any, markerClickCallback: Function, shipList: Shipwreck[]) => {
     if(!map.current) return
     //@ts-ignore
     const mapFeature:MapFeature = map.current.queryRenderedFeatures(clickEvent.point, { layers: ['places'] })[0];
-    markerClickCallback(mapFeature);
+    markerClickCallback(mapFeature, shipList);
 }
 
 const handleMarkerHover = (map: MutableRefObject<null>, mapSelection: MapSelection, mapProperties: MapProperties) => {
@@ -113,6 +113,7 @@ export const updateMapMarkers = (map: MutableRefObject<null>, listOfShips: Shipw
             features: features
         }
     });
+    console.log(features);
     // @ts-ignore
     map.current.addLayer({
         id: 'places',
@@ -120,8 +121,62 @@ export const updateMapMarkers = (map: MutableRefObject<null>, listOfShips: Shipw
         source: 'places',
         layout: {
             'icon-image': 'iconPurple',
-            'icon-size': 0.2,
+            'icon-size': 0.25,
             'icon-allow-overlap': true
         }
-    })
+    });
+    // setHighlightedMapMarker()
 };
+
+export const setHighlightedMapMarker = (map: MutableRefObject<null>, longitude: number | undefined, latitude: number | undefined) => {
+    if(!map.current || map.current === null) return
+    removeHighlightedMapMarker(map);
+    const features = [{
+        id: 'highlightedMapIcon',
+        type: 'Feature',
+        properties: {
+            // MouseEvent: 'none'
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [longitude || 0, latitude || 0]
+        }
+    }];
+    // @ts-ignore
+    if(map.current.getSource('highlightedMapIcon') === undefined) {
+        // @ts-ignore
+        map.current.addSource('highlightedMapIcon', {
+            type: 'geojson',
+            data: {
+                type: 'FeatureCollection',
+                features: features
+            }
+        });
+    }
+    console.log('setHighlighted')
+    //@ts-ignore
+    map.current.addLayer({
+        id: 'highlightedMapIcon',
+        type: 'symbol',
+        source: 'highlightedMapIcon',
+        layout: {
+            'icon-image': 'iconHighlight',
+            'icon-size': .3,
+            'icon-allow-overlap': true
+        }
+    });
+}
+
+export const removeHighlightedMapMarker = (map: MutableRefObject<null>) => {
+    if(!map.current || map.current === null) return
+    // @ts-ignore
+    if(map.current.getLayer('highlightedMapIcon') !== undefined) {
+        // @ts-ignore
+        map.current.removeLayer('highlightedMapIcon');
+    }
+    // @ts-ignore
+    if(map.current.getSource('highlightedMapIcon') !== undefined) {
+        // @ts-ignore
+        map.current.removeSource('highlightedMapIcon')
+    }
+}

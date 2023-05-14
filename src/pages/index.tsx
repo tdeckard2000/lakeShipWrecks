@@ -9,7 +9,7 @@ import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
-import { initializeMap, updateMapMarkers } from "../map";
+import { initializeMap, removeHighlightedMapMarker, setHighlightedMapMarker, updateMapMarkers } from "../map";
 import { LoadingMessageComponent } from "./components/loadingMessage";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -46,8 +46,14 @@ export default function Home() {
 		})
 	}
 
-	const handleMapMarkerClick = (mapFeature: MapFeature) => {
-		setShipSelectedId(mapFeature.id);
+	const handleMapMarkerClick = (mapFeature: MapFeature, shipList: Shipwreck[]) => {
+		const id = mapFeature.id;
+		if(shipSelectedId === id) {
+			removeHighlightedMapMarker(map);
+		} else {
+			setShipSelectedId(id);
+			setHighlightedMapMarker(map, shipList[id].coordinates.longitude, shipList[id].coordinates.latitude)
+		}
 	}
 
 	const handleFilterChange = async (filterParams: ShipwreckFilters) => {
@@ -112,6 +118,7 @@ export default function Home() {
 							setShipSelectedId={setShipSelectedId}
 							shipSelectedId={shipSelectedId}
 							setFiltersOpen={setFiltersOpen}
+							map={map}
 						></ShipListComponent>
 					</div>
 				</div>
@@ -130,6 +137,7 @@ export default function Home() {
 						shipList={shipList}
 						handleFilterChange={handleFilterChange}
 						setFiltersActive={setFiltersActive}
+						map={map}
 					></MobileInterface>
 				</div>
 				<div>
