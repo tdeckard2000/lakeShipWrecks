@@ -11,6 +11,7 @@ import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
 import { initializeMap, removeHighlightedMapMarker, setHighlightedMapMarker, updateMapMarkers } from "../map";
 import { LoadingMessageComponent } from "./components/loadingMessage";
+import ModalComponent from "./components/modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -85,6 +86,45 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main>
+				<div className={ shipSelectedId === undefined || isMobileDevice ? styles.shipInfoModalHidden : styles.shipInfoModalVisible}>
+					<ModalComponent
+						borderRadius="12px 12px 0px 0px"
+						height="180px"
+						top="0px"
+						left="0"
+						width="750px"
+						closeButtonCallback={() => {setShipSelectedId(undefined); removeHighlightedMapMarker(map);}}
+						title={shipSelectedId !== undefined ? shipList[shipSelectedId].name : ''}
+					>
+						<div className={styles.infoModalFlexbox}>
+							<div className={styles.imageContainer}>
+								<img src={shipSelectedId !== undefined ? shipList[shipSelectedId].linkImage : ''} alt="" />
+							</div>
+							<div className={styles.infoContainer}>
+								<div><span className={styles.statLabels}>Length: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.length != undefined ? shipList[shipSelectedId].stats.length?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Beam: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.beam != undefined ? shipList[shipSelectedId].stats.beam?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Weight: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.grossTons != undefined ? shipList[shipSelectedId].stats.grossTons?.toString() : '?'} gt</div>
+								<div><span className={styles.statLabels}>Min Depth: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.waterDepth != undefined ? shipList[shipSelectedId].stats.waterDepth?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Coords: </span><span>{shipSelectedId !== undefined? shipList[shipSelectedId].coordinates.latitude?.toString().slice(0, 6) + " " + shipList[shipSelectedId].coordinates.longitude?.toString().slice(0, 7): ''}</span></div>
+								<div><span className={styles.statLabels}>ID: </span>{shipSelectedId !== undefined? shipList[shipSelectedId]._id.toString().slice(18) : ''}</div>
+								<a target="_blank" href={shipSelectedId !== undefined? shipList[shipSelectedId].linkWiki : ''}>Wikipedia</a>|
+								<a target="_blank" href={`https://maps.google.com/?q=${shipSelectedId !== undefined? shipList[shipSelectedId].coordinates.latitude: ''},${shipSelectedId !== undefined? shipList[shipSelectedId].coordinates.longitude : ''}`}>Google Maps</a>
+							</div>
+							<div className={styles.infoContainer}>
+								<div><span className={styles.statLabels}>Launch Date: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.length != undefined ? shipList[shipSelectedId].stats.length?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Sink Date: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.beam != undefined ? shipList[shipSelectedId].stats.beam?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Boat Type: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.grossTons != undefined ? shipList[shipSelectedId].stats.grossTons?.toString() : '?'} gt</div>
+								<div><span className={styles.statLabels}>Location: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.waterDepth != undefined ? shipList[shipSelectedId].stats.waterDepth?.toString() : '?'} ft</div>
+							</div>
+							<div className={styles.infoContainer}>
+								<div><span style={{overflow: 'auto'}} className={styles.statLabels}>Notes: </span>{shipSelectedId !== undefined && shipList[shipSelectedId].notes !== undefined ? shipList[shipSelectedId].notes : ''}</div>
+							</div>
+						</div>
+						{/* <div className={styles.expandedShipInfoVisible}>
+							<div>More Info Here</div>
+						</div> */}
+					</ModalComponent>
+				</div>
 				<div style={{display: isLoading? 'flex' : 'none'}}>
 					<LoadingMessageComponent></LoadingMessageComponent>
 				</div>
