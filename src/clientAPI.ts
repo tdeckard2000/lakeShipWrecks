@@ -31,3 +31,13 @@ export const getCurrentMapboxLoadCount = async () => {
         console.warn(err);
     }
 }
+
+export const incrementMapboxLoadCount = async (currentMapboxLoadCount: number) => {
+    try {
+        const res = await fetch("/api/mapBoxCounter", { method: "POST", body: JSON.stringify({currentMapboxLoadCount: currentMapboxLoadCount})});
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.warn(err);
+    }
+}
