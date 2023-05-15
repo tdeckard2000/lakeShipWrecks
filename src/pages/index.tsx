@@ -111,10 +111,10 @@ export default function Home() {
 								<a target="_blank" href={`https://maps.google.com/?q=${shipSelectedId !== undefined? shipList[shipSelectedId].coordinates.latitude: ''},${shipSelectedId !== undefined? shipList[shipSelectedId].coordinates.longitude : ''}`}>Google Maps</a>
 							</div>
 							<div className={styles.infoContainer}>
-								<div><span className={styles.statLabels}>Launch Date: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.length != undefined ? shipList[shipSelectedId].stats.length?.toString() : '?'} ft</div>
-								<div><span className={styles.statLabels}>Sink Date: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.beam != undefined ? shipList[shipSelectedId].stats.beam?.toString() : '?'} ft</div>
-								<div><span className={styles.statLabels}>Boat Type: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.grossTons != undefined ? shipList[shipSelectedId].stats.grossTons?.toString() : '?'} gt</div>
-								<div><span className={styles.statLabels}>Location: </span>{shipSelectedId != undefined && shipList[shipSelectedId].stats.waterDepth != undefined ? shipList[shipSelectedId].stats.waterDepth?.toString() : '?'} ft</div>
+								<div><span className={styles.statLabels}>Launched: </span>{shipSelectedId != undefined && shipList[shipSelectedId].dateLaunched != undefined ? shipList[shipSelectedId].dateLaunched?.toString().slice(4,6) + "/" + shipList[shipSelectedId].dateLaunched?.toString().slice(6,8) + "/" + shipList[shipSelectedId].dateLaunched?.toString().slice(0,4) : '?'}</div>
+								<div><span className={styles.statLabels}>Sank: </span>{shipSelectedId != undefined && shipList[shipSelectedId].dateSunk != undefined ? shipList[shipSelectedId].dateSunk?.toString().slice(4,6) + "/" + shipList[shipSelectedId].dateSunk?.toString().slice(6,8) + "/" + shipList[shipSelectedId].dateSunk?.toString().slice(0,4) : '?'}</div>
+								<div><span className={styles.statLabels}>Boat Type: </span>{shipSelectedId != undefined && shipList[shipSelectedId].boatType != undefined ? shipList[shipSelectedId].boatType : '?'}</div>
+								<div><span className={styles.statLabels}>Location: </span>{shipSelectedId != undefined && shipList[shipSelectedId].location != undefined ? shipList[shipSelectedId].location : '?'} ft</div>
 							</div>
 							<div className={styles.infoContainer}>
 								<div><span style={{overflow: 'auto'}} className={styles.statLabels}>Notes: </span>{shipSelectedId !== undefined && shipList[shipSelectedId].notes !== undefined ? shipList[shipSelectedId].notes : ''}</div>

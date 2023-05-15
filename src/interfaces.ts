@@ -6,6 +6,7 @@ export interface Shipwreck {
     location: string;
     boatType?: string;
     dateSunk?: number;
+    dateLaunched?: number;
     notes?: string;
     coordinates: {
         latitude?: number;
