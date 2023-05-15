@@ -40,6 +40,12 @@ const ShipListComponent = (props: Props) => {
             //Otherwise, highlight
             const ship = props.shipList[index];
             props.setShipSelectedId(index);
+            if(ship.coordinates.longitude && ship.coordinates.longitude !== 0 && ship.coordinates.latitude && ship.coordinates.latitude !== 0) {
+                props.map.current.flyTo({
+                    center: [ship.coordinates.longitude, ship.coordinates.latitude],
+                    speed: 0.8
+                })
+            }
             setHighlightedMapMarker(props.map, ship?.coordinates.longitude, ship?.coordinates.latitude);
         }
     };
