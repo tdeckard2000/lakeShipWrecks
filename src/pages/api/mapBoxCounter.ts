@@ -33,7 +33,7 @@ const incrementMapboxLoadCount = async function(currentCount: number) {
     try {
         const client = await clientPromise;
         const db = client.db("main");
-        const res = await db.collection("stats").findOneAndUpdate({name: "mapboxLoadCount"}, {$set: {"count": currentCount + 1}})
+        const res = await db.collection("stats").findOneAndUpdate({name: "mapboxLoadCount"}, {$set: {"count": currentCount + 2}})
         return res;
      } catch (e) {
         console.warn("error: ", e)
