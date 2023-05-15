@@ -56,7 +56,8 @@ export interface MapFeature {
             type: string
         },
         properties: {
-            description: string
+            description: string,
+            id: string
         },
         source: string,
         type: string,

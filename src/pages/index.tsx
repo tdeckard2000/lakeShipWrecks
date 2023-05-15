@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { MapFeature, MapProperties, Shipwreck, ShipwreckFilters } from "@/interfaces";
+import { MapFeature, Shipwreck, ShipwreckFilters } from "@/interfaces";
 import * as clientAPI from "@/clientAPI";
 import MobileInterface from "./mobileInterface";
 import FiltersComponent from "./components/filters";
@@ -47,12 +47,14 @@ export default function Home() {
 	}
 
 	const handleMapMarkerClick = (mapFeature: MapFeature, shipList: Shipwreck[]) => {
-		const id = mapFeature.id;
-		if(shipSelectedId === id) {
+		const shipObjectId = mapFeature.properties['id'];
+		if(shipSelectedId && shipList[shipSelectedId]._id.toString() === shipObjectId) {
 			removeHighlightedMapMarker(map);
+			setShipSelectedId(undefined);
 		} else {
-			setShipSelectedId(id);
-			setHighlightedMapMarker(map, shipList[id].coordinates.longitude, shipList[id].coordinates.latitude)
+			setShipSelectedId(mapFeature.id);
+			const shipCoordinates = (shipList.find(ship => ship._id.toString() === shipObjectId))?.coordinates;
+			setHighlightedMapMarker(map, shipCoordinates?.longitude, shipCoordinates?.latitude);
 		}
 	}
 
@@ -60,6 +62,7 @@ export default function Home() {
 		if(!map.current) return
 		const newShipList = await clientAPI.getFilteredShipwrecks(filterParams);
 		setShipList(newShipList);
+		removeHighlightedMapMarker(map);
 		updateMapMarkers(map, newShipList);
 	}
 
@@ -69,6 +72,7 @@ export default function Home() {
 		setShipSelectedId(undefined);
 		const newShipList = await clientAPI.getAllShipwrecks();
 		setShipList(newShipList);
+		removeHighlightedMapMarker(map);
 		updateMapMarkers(map, newShipList);
 	}
 
@@ -117,6 +121,7 @@ export default function Home() {
 							listHeight="calc(100% - 60px)" 
 							setShipSelectedId={setShipSelectedId}
 							shipSelectedId={shipSelectedId}
+							filtersOpen={filtersOpen}
 							setFiltersOpen={setFiltersOpen}
 							map={map}
 						></ShipListComponent>

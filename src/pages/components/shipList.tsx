@@ -9,6 +9,7 @@ interface Props {
     listHeight?: string;
     children?: any;
     shipSelectedId: number | undefined;
+    filtersOpen: boolean;
     setFiltersOpen: Function;
     map: any
 }
@@ -23,8 +24,9 @@ const ShipListComponent = (props: Props) => {
             if(itemIsInViewport(listItem)) {
                 return;
             } else {
-                props.setFiltersOpen(false);
-                listItem?.scrollIntoView({behavior: 'smooth'});
+                if(!props.filtersOpen) {
+                    listItem?.scrollIntoView({behavior: 'smooth'});
+                }
             }
         }
     }, [props.shipSelectedId])
@@ -56,7 +58,7 @@ const ShipListComponent = (props: Props) => {
     <div className={styles.listContainer} style={{height: props.listHeight}}>
         {props.shipList ? props.shipList.map((ship, index) => (
             <div id={`item${index}`} key={index} className={[styles.listItem, index === props.shipSelectedId ? styles.highlighted : ''].join(' ')} onClick={() => listItemClicked(index)}>
-                <div className={styles.shipName}>{ship.name}</div>
+                <div className={styles.shipName}>{ship.name} {ship.isMissing || !ship.coordinates.latitude || !ship.coordinates.longitude? <span style={{color: '#e18e8e'}}>Missing</span> : ""}</div>
                 <div className={styles.statsContainer}>
                     <div className={styles.shipStat}>
                         <img src="calendar-icon.svg" alt="" /> 

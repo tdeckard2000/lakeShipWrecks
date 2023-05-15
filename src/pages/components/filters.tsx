@@ -49,24 +49,6 @@ const FiltersComponent = (props: Props) => {
         console.warn("--- filter submit ---")
     }
 
-    // useEffect(() => {
-    //     if(filtersActive) return;
-    //     setForm(
-    //         {
-    //             hideOffscreen: true,
-    //             wreckDepthMin: 0,
-    //             wreckDepthMax: 0,
-    //             sinkYearMin: 0,
-    //             sinkYearMax: 0,
-    //             weightMin: 0,
-    //             weightMax: 0,
-    //             shipLengthMin: 0,
-    //             shipLengthMax: 0,
-    //             listMissingShips: false,
-    //             sortBy: 'name'
-    //         })
-    // }, [props.filtersActive])
-
     return (
     <div className={styles.filterBody} style={{height: props.height}}>
         <div>{props.children}</div>

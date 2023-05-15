@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import FiltersComponent from "./components/filters";
 import ShipListComponent from "./components/shipList";
 import { Shipwreck } from "@/interfaces";
+import { removeHighlightedMapMarker } from "@/map";
 
 interface Props {
     setShipSelectedId: Function;
@@ -126,7 +127,7 @@ const MobileInterface = (props: Props) => {
                 top="0px"
                 left="0"
                 width="100vw"
-                closeButtonCallback={() => props.setShipSelectedId(undefined)}
+                closeButtonCallback={() => {props.setShipSelectedId(undefined); removeHighlightedMapMarker(props.map);}}
                 title={props.shipSelectedId !== undefined ? props.shipList[props.shipSelectedId].name : ''}
             >
             <div className={styles.infoModalFlexbox}>
@@ -170,9 +171,11 @@ const MobileInterface = (props: Props) => {
                         setShipSelectedId={props.setShipSelectedId}
                         shipSelectedId={props.shipSelectedId}
                         setFiltersOpen={props.setFiltersOpen}
+                        filtersOpen={props.filtersOpen}
                         map={props.map}
                         ></ShipListComponent>
                 </div>
+                <div>FiltersOpen? {props.filtersOpen.toString()}</div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
                     <FiltersComponent 
                     formCallback={props.handleFilterChange} 

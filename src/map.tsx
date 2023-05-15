@@ -87,6 +87,7 @@ export const updateMapMarkers = (map: MutableRefObject<null>, listOfShips: Shipw
                     <div><span style="font-weight: 600">Ship Length:</span> ${shipwreck.stats.length !== undefined ? shipwreck.stats.length : '?'} ft</div>
                 </div>
                 `,
+                id: shipwreck._id
             },
             geometry: {
                 type: 'Point',
@@ -113,7 +114,6 @@ export const updateMapMarkers = (map: MutableRefObject<null>, listOfShips: Shipw
             features: features
         }
     });
-    console.log(features);
     // @ts-ignore
     map.current.addLayer({
         id: 'places',
@@ -153,7 +153,6 @@ export const setHighlightedMapMarker = (map: MutableRefObject<null>, longitude: 
             }
         });
     }
-    console.log('setHighlighted')
     //@ts-ignore
     map.current.addLayer({
         id: 'highlightedMapIcon',
