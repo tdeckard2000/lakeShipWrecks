@@ -175,7 +175,6 @@ const MobileInterface = (props: Props) => {
                         map={props.map}
                         ></ShipListComponent>
                 </div>
-                <div>FiltersOpen? {props.filtersOpen.toString()}</div>
                 <div style={{display: props.filtersOpen ? 'block' : 'none'}} className={styles.filterContainer}>
                     <FiltersComponent 
                     formCallback={props.handleFilterChange} 

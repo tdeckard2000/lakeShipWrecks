@@ -42,7 +42,7 @@ const FiltersComponent = (props: Props) => {
     
     useEffect(() => {
         props.formCallback(form);
-    }, [form])
+    }, [{form}])
     
     const handleSubmit = (event: any) => {
         event.preventDefault();
