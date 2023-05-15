@@ -21,7 +21,7 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
         }
 
     } else if(req.method === "POST") {
-        console.log("POST Request")
+        //post request
     }
     res.status(200).send(response)
 }

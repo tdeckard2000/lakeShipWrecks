@@ -13,7 +13,7 @@ const popup = new mapboxgl.Popup({
 export const initializeMap = async (map: MutableRefObject<null>, mapProperties:MapProperties, mapContainer: MutableRefObject<null>, shipList: Shipwreck[], markerClickCallback: Function) => {
     //track mapbox load count per month (15th - 15th) to prevent billing fee $$
     let currentMapboxLoadCount = await clientAPI.getCurrentMapboxLoadCount();
-    console.log("count: ", currentMapboxLoadCount)
+    console.log("Current Mapbox Load Count: ", currentMapboxLoadCount)
     if(currentMapboxLoadCount >= 45000) {
         alert("Too much load on map service. Please try again later.")
         return;
