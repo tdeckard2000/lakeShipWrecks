@@ -2,6 +2,7 @@
 import mapboxgl from "!mapbox-gl";
 import { MapFeature, MapSelection, MapProperties, Shipwreck } from "@/interfaces";
 import { MutableRefObject } from "react";
+import * as clientAPI from "@/clientAPI";
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAP_TOKEN;
 
 const popup = new mapboxgl.Popup({
@@ -11,6 +12,13 @@ const popup = new mapboxgl.Popup({
 
 export const initializeMap = async (map: MutableRefObject<null>, mapProperties:MapProperties, mapContainer: MutableRefObject<null>, shipList: Shipwreck[], markerClickCallback: Function) => {
     if (map.current) return;
+    //track mapbox load count per month (15th - 15th) to prevent billing fee $$
+    const currentMapboxLoadCount = await clientAPI.getCurrentMapboxLoadCount();
+    console.log("count: ", currentMapboxLoadCount)
+    if(currentMapboxLoadCount >= 40000) {
+        alert("Too much load on map service. Please try again later.")
+        return;
+    }
     map.current = await new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v12",

@@ -21,3 +21,13 @@ export const getFilteredShipwrecks = async (filterParams: ShipwreckFilters) => {
         console.warn(err);
     }
 }
+
+export const getCurrentMapboxLoadCount = async () => {
+    try {
+        const res = await fetch("/api/mapBoxCounter", { method: "GET" });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.warn(err);
+    }
+}
