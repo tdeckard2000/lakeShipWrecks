@@ -32,7 +32,7 @@ export default function Home() {
 	}, []);
 
 	const initializePage = async () => {
-		const mapProperties = {lng: -85.15, lat: 44.5, zoom: 5.5, hidePopups: isMobileDevice};
+		const mapProperties = {lng: -89.15, lat: 46.5, zoom: 6, hidePopups: isMobileDevice};
 		if(window.innerWidth <= 550) {
 			setIsMobileDevice(true);
 			mapProperties.hidePopups = true;
@@ -114,7 +114,7 @@ export default function Home() {
 								<div><span className={styles.statLabels}>Launched: </span>{shipSelectedId != undefined && shipList[shipSelectedId].dateLaunched != undefined ? shipList[shipSelectedId].dateLaunched?.toString().slice(4,6) + "/" + shipList[shipSelectedId].dateLaunched?.toString().slice(6,8) + "/" + shipList[shipSelectedId].dateLaunched?.toString().slice(0,4) : '?'}</div>
 								<div><span className={styles.statLabels}>Sank: </span>{shipSelectedId != undefined && shipList[shipSelectedId].dateSunk != undefined ? shipList[shipSelectedId].dateSunk?.toString().slice(4,6) + "/" + shipList[shipSelectedId].dateSunk?.toString().slice(6,8) + "/" + shipList[shipSelectedId].dateSunk?.toString().slice(0,4) : '?'}</div>
 								<div><span className={styles.statLabels}>Boat Type: </span>{shipSelectedId != undefined && shipList[shipSelectedId].boatType != undefined ? shipList[shipSelectedId].boatType : '?'}</div>
-								<div><span className={styles.statLabels}>Location: </span>{shipSelectedId != undefined && shipList[shipSelectedId].location != undefined ? shipList[shipSelectedId].location : '?'} ft</div>
+								<div><span className={styles.statLabels}>Location: </span>{shipSelectedId != undefined && shipList[shipSelectedId].location != undefined ? shipList[shipSelectedId].location : '?'}</div>
 							</div>
 							<div className={styles.infoContainer}>
 								<div><span style={{overflow: 'auto'}} className={styles.statLabels}>Notes: </span>{shipSelectedId !== undefined && shipList[shipSelectedId].notes !== undefined ? shipList[shipSelectedId].notes : ''}</div>
