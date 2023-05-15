@@ -20,7 +20,7 @@ export const initializeMap = async (map: MutableRefObject<null>, mapProperties:M
     //@ts-ignore
     map.current.on('load', () => {
         //@ts-ignore
-        map.current.loadImage('map-prettyPurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
+        map.current.loadImage('map-prettypurple-icon.png', (error, image) => {map.current.addImage('iconPurple', image)});
         //@ts-ignore
         map.current.loadImage('map-purple-icon.png', (error, image) => {map.current.addImage('iconHighlight', image)});
         updateMapMarkers(map, shipList);
