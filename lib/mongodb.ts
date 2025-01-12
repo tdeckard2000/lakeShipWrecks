@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
+	console.log("process.env: ", process.env);
 	throw new Error('Invalid environment variable: "MONGODB_URI"');
 }
 
